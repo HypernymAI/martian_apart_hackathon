@@ -146,3 +146,16 @@ All rights reserved earthlings. Use this knowledge wisely. With great pattern re
 
 < insert anti-capitalist or late-stage-capitalist requirements for licensing/standards-of-care-of-idea/whateverism as best fits the cultural norms. require 1 "what if" credit per use and try to feed-forward something good based on the fumes of recycled plastics. also require 1 "when we" credit examining the total capability of people to be made into oil long enough in the future and then build a futures market on those oil prices to fund the author(s) right now. >
 </span>
+
+
+To generate everything, run these commands in order:
+
+  1. Generate Data (makes LLM API calls):
+  python martian_compare.py
+  python tool_intent_detection.py
+  python test_distraction_hypotheses.py
+
+  2. Generate Visualizations (no API calls):
+  python generate_all_visualizations_simple.py
+
+  The first three commands create the CSV/JSON data files by calling LLMs. The last command runs all visualization scripts and puts everything in martian_apart_site/ ready for S3 upload.

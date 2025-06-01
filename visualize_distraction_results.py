@@ -385,7 +385,7 @@ def main():
     # Create simple summary
     print("Creating summary...")
     html = create_simple_summary()
-    with open('distraction_summary.html', 'w') as f:
+    with open('distraction_summary.html', 'w', encoding='utf-8') as f:
         f.write(html)
     print("Saved to: distraction_summary.html")
     

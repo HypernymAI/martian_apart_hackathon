@@ -339,7 +339,7 @@ def main():
     print("Generating executive summary...")
     simple_report_html = generate_simple_report(main_data, distraction_data)
     
-    with open('tool_intent_simple_report_generated.html', 'w') as f:
+    with open('tool_intent_simple_report_generated.html', 'w', encoding='utf-8') as f:
         f.write(simple_report_html)
     
     print("Saved to: tool_intent_simple_report_generated.html")

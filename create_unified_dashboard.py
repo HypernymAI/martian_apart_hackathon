@@ -8,8 +8,10 @@ def create_dashboard():
     
     html = """
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
     <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>The Martian Apart - LLM Analysis Dashboard</title>
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
         <style>
@@ -401,7 +403,7 @@ def main():
     print("Creating unified dashboard...")
     html = create_dashboard()
     
-    with open('index.html', 'w') as f:
+    with open('index.html', 'w', encoding='utf-8') as f:
         f.write(html)
     
     print("Saved to: index.html")

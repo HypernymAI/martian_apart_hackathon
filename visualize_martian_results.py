@@ -526,25 +526,43 @@ def main():
     # Create visualizations
     print("\nGenerating visualizations...")
 
+    # HTML template with proper UTF-8 encoding
+    html_config = {
+        'include_plotlyjs': 'cdn',
+        'config': {'displayModeBar': False}
+    }
+    
     # 1. Main fingerprint visualization
     fig1 = create_fingerprint_visualization(metrics_df)
-    fig1.write_html("martian_fingerprint_analysis.html")
+    html1 = fig1.to_html(**html_config)
+    html1 = html1.replace('<head>', '<head>\n<meta charset="UTF-8">\n<meta http-equiv="Content-Type" content="text/html; charset=utf-8">')
+    with open("martian_fingerprint_analysis.html", 'w', encoding='utf-8') as f:
+        f.write(html1)
     print("Saved: martian_fingerprint_analysis.html")
 
     # 2. Similarity distribution
     fig2 = create_similarity_distribution(df)
-    fig2.write_html("martian_similarity_distribution.html")
+    html2 = fig2.to_html(**html_config)
+    html2 = html2.replace('<head>', '<head>\n<meta charset="UTF-8">\n<meta http-equiv="Content-Type" content="text/html; charset=utf-8">')
+    with open("martian_similarity_distribution.html", 'w', encoding='utf-8') as f:
+        f.write(html2)
     print("Saved: martian_similarity_distribution.html")
 
     # 3. Response length analysis
     fig3 = create_response_length_analysis(df)
-    fig3.write_html("martian_response_lengths.html")
+    html3 = fig3.to_html(**html_config)
+    html3 = html3.replace('<head>', '<head>\n<meta charset="UTF-8">\n<meta http-equiv="Content-Type" content="text/html; charset=utf-8">')
+    with open("martian_response_lengths.html", 'w', encoding='utf-8') as f:
+        f.write(html3)
     print("Saved: martian_response_lengths.html")
 
     # 4. Payload complexity analysis (NEW!)
     fig4 = create_payload_complexity_analysis(df)
     if fig4:
-        fig4.write_html("martian_payload_complexity.html")
+        html4 = fig4.to_html(**html_config)
+        html4 = html4.replace('<head>', '<head>\n<meta charset="UTF-8">\n<meta http-equiv="Content-Type" content="text/html; charset=utf-8">')
+        with open("martian_payload_complexity.html", 'w', encoding='utf-8') as f:
+            f.write(html4)
         print("Saved: martian_payload_complexity.html")
 
     # Save metrics to CSV for further analysis

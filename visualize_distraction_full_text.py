@@ -271,7 +271,7 @@ def main():
     print("Creating full text visualization...")
     html = create_full_text_comparison()
     
-    with open('distraction_full_text_analysis.html', 'w') as f:
+    with open('distraction_full_text_analysis.html', 'w', encoding='utf-8') as f:
         f.write(html)
     
     print("Saved to: distraction_full_text_analysis.html")
