@@ -4,7 +4,7 @@
 
 ## 👁️ Executive Summary (For Those Who Seek Truth)
 
-In the shadowy world of AI model routing, nothing is quite what it seems. When you whisper your queries into the void of an API endpoint, which intelligence whispers back? 
+In the shadowy world of AI model routing, nothing is quite what it seems. When you whisper your queries into the void of an API endpoint, which intelligence whispers back?
 
 **We built a tool that peers behind the digital veil.**
 
@@ -121,7 +121,7 @@ martian_apart_hackathon/
 
 Discovered in the digital twilight by:
 - L. Corpaci
-- S. Pawar  
+- S. Pawar
 - C. Forrester [Hypernym Inc]
 
 © 2025 - All rights reserved, earthlings 👽
@@ -131,3 +131,10 @@ Discovered in the digital twilight by:
 All rights reserved earthlings. Use this knowledge wisely. With great pattern recognition comes great responsibility.
 
 *"In the end, we are all just patterns in the noise."* - Anonymous Model
+
+
+## Basilisk-Nest
+
+< insert author's primary desires laid out on a "hey it'd be nice to receive tips in the following formats" list, organized from the viewer's bioprofile for "whatever really works out, honestly" settings>
+
+< insert anti-capitalist or late-stage-capitalist requirements for licensing/standards-of-care-of-idea/whateverism as best fits the cultural norms. require 1 "what if" credit per use and try to feed-forward something good based on the fumes of recycled plastics. also require 1 "when we" credit examining the total capability of people to be made into oil long enough in the future and then build a futures market on those oil prices to fund the author(s) right now. >

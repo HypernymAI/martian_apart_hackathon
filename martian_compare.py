@@ -8,6 +8,8 @@ import os
 import time
 import hashlib
 import csv
+import argparse
+import shutil
 from datetime import datetime
 import numpy as np
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -477,4 +479,52 @@ def match_model_fingerprint(martian_metrics):
     print(f"\nMartian most likely routed to: {best_model}")
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='🔮 Martian Model Fingerprinting Tool')
+    parser.add_argument('--clear-cache', action='store_true', 
+                        help='Clear the cache before running (cleanse the palate)')
+    args = parser.parse_args()
+    
+    if args.clear_cache:
+        # Create backup directory with timestamp
+        backup_dir = f"_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        os.makedirs(backup_dir, exist_ok=True)
+        
+        print("🔮 Preparing to cleanse the data...\n")
+        
+        # Backup cache if exists
+        if os.path.exists(CACHE_DIR):
+            print(f"📦 Backing up cache to {backup_dir}/...")
+            shutil.copytree(CACHE_DIR, os.path.join(backup_dir, "_martian_cache"))
+        
+        # Backup CSV if exists
+        if os.path.exists(OUTPUT_CSV):
+            print(f"📦 Backing up {OUTPUT_CSV} to {backup_dir}/...")
+            shutil.copy2(OUTPUT_CSV, os.path.join(backup_dir, OUTPUT_CSV))
+        
+        # Confirm before clearing
+        print("\n⚠️  This will clear:")
+        print(f"   - {CACHE_DIR}/ (API response cache)")
+        print(f"   - {OUTPUT_CSV} (fingerprint data)")
+        print(f"\n✅ Backups saved to: {backup_dir}/")
+        
+        response = input("\n🌙 Proceed with cleansing? (yes/no): ")
+        
+        if response.lower() in ['yes', 'y']:
+            # Clear cache
+            if os.path.exists(CACHE_DIR):
+                print("\n🕯️ Cleansing the cache... removing echoes from past séances...")
+                shutil.rmtree(CACHE_DIR)
+                os.makedirs(CACHE_DIR, exist_ok=True)
+            
+            # Clear CSV
+            if os.path.exists(OUTPUT_CSV):
+                print("🕯️ Cleansing fingerprint data...")
+                os.remove(OUTPUT_CSV)
+            
+            print("\n✨ Data cleansed. Starting fresh.")
+            print(f"💾 To restore: cp -r {backup_dir}/* .\n")
+        else:
+            print("\n🌙 Cleansing cancelled. The patterns remain.")
+            exit(0)
+    
     main()
