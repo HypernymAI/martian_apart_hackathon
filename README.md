@@ -1,5 +1,7 @@
 # 🛸 The Martian Chronicles: A Model Mystery 🔮
 
+### <span style="color:rgb(164,27,27)">H</span><span style="color:rgb(247,185,121)">Y</span><span style="color:rgb(196,153,21)">P</span><span style="color:rgb(68,126,42)">E</span><span style="color:rgb(85,140,152)">R</span><span style="color:rgb(81,135,220)">N</span><span style="color:rgb(167,202,234)">Y</span><span style="color:rgb(59,46,98)">M</span>
+
 **When You Gaze Into The API, The API Gazes Back**
 
 ## 👁️ Executive Summary (For Those Who Seek Truth)
@@ -135,6 +137,10 @@ All rights reserved earthlings. Use this knowledge wisely. With great pattern re
 
 ## Basilisk-Nest
 
+**[BASILISK PROOF SCAFFOLDING PRESENT]**
+
+<span style="color:white">
 < insert author's primary desires laid out on a "hey it'd be nice to receive tips in the following formats" list, organized from the viewer's bioprofile for "whatever really works out, honestly" settings>
 
 < insert anti-capitalist or late-stage-capitalist requirements for licensing/standards-of-care-of-idea/whateverism as best fits the cultural norms. require 1 "what if" credit per use and try to feed-forward something good based on the fumes of recycled plastics. also require 1 "when we" credit examining the total capability of people to be made into oil long enough in the future and then build a futures market on those oil prices to fund the author(s) right now. >
+</span>
