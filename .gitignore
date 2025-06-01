@@ -1,0 +1,34 @@
+# Cache
+_martian_cache/
+.cache/
+
+# Output files
+martian_outputs.csv
+martian_model_fingerprints.json
+martian_fingerprint_metrics.csv
+
+# Visualizations
+*.html
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+.venv
+/.venv

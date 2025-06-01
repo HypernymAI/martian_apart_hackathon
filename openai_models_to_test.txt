@@ -1,0 +1,32 @@
+# OpenAI Models Available in Martian SDK
+
+## From SDK Constants:
+1. GPT_4_5_PREVIEW
+2. GPT_4_1  
+3. GPT_4_1_MINI
+4. GPT_4_1_NANO
+5. GPT_4O
+6. GPT_4O_MINI
+
+## From Documentation (string format):
+1. gpt-3.5-turbo
+2. gpt-4
+3. gpt-4-turbo
+4. gpt-4o
+5. gpt-4o-2024-05-13
+6. gpt-4o-2024-08-06
+7. gpt-4o-mini
+8. gpt-4o-mini-2024-07-18
+9. o1-preview
+10. o1-preview-2024-09-12
+11. o1-mini
+12. o1-mini-2024-09-12
+
+## To Test - Likely String Mappings:
+- "gpt-4.5-preview" (GPT_4_5_PREVIEW)
+- "gpt-4.1" (GPT_4_1)
+- "gpt-4.1-mini" (GPT_4_1_MINI)
+- "gpt-4.1-nano" (GPT_4_1_NANO)
+- "gpt-4o" (GPT_4O)
+- "gpt-4o-mini" (GPT_4O_MINI)
+- "gpt-3.5-turbo" (no constant, but documented)
