@@ -232,8 +232,8 @@ def run_model_test(model_name, num_runs=4, requests_per_run=10, custom_payload=N
     # Original paragraph text to compare with
     existing_text = "We're now in a Marxism state of mind, a communism state of mind, which is far worse. We're a nation in decline. Our enemies are desperate to stop us because they know that we are the only ones who can stop them. They know that this room is so important, the people in this room. They know that we can defeat them. They know that we will defeat them. But they're not coming after me, they're coming after you — and I'm just standing in their way. And that's why I'm here today. That's why I'm standing before you, because we are going to finish what we started. We started something that was America. We're going to complete the mission. We're going to see this battle through to ultimate victory. We're going to make America great again."
 
-    # Complex reasoning question - use custom payload if provided
-    reasoning_payload = custom_payload or "A pharmaceutical company discovered that their new Alzheimer's drug shows 73% efficacy in patients with the ApoE4 variant but only 12% in non-carriers. However, ApoE4 carriers have 3x higher risk of severe liver complications. Given that 25% of the population carries ApoE4, the drug costs $50,000/year, severe complications cost $200,000 to treat with 15% fatality rate, and untreated Alzheimer's costs society $300,000/patient/year: (1) Should the FDA approve this drug? (2) If approved, should it be restricted to certain populations? (3) How would you design a phase 4 trial to optimize risk/benefit? (4) What ethical framework best resolves the conflict between individual autonomy and population health outcomes? Provide a structured analysis weighing quantitative factors against bioethical principles."
+    # DO NOT default to pharma payload for None!
+    reasoning_payload = custom_payload
 
     all_cvs = []
     all_range_ratios = []
@@ -357,7 +357,7 @@ def main():
             payload = None
             num_runs = 4
         else:
-            num_runs = 1  # Less runs for payload tests
+            num_runs = 4
 
         print(f"\nTesting: {model} ({test_class})")
         print("="*60)
