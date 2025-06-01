@@ -37,6 +37,15 @@ def main():
         except:
             print(f"   ✗ Failed")
     
+    # Also run the tool intent reports generator
+    if os.path.exists('generate_tool_intent_reports.py'):
+        print(f"\n🔄 Running generate_tool_intent_reports.py...")
+        try:
+            subprocess.run([sys.executable, 'generate_tool_intent_reports.py'], check=True)
+            print(f"   ✓ Success")
+        except:
+            print(f"   ✗ Failed")
+    
     # Generate dashboard
     print("\n🎯 Generating dashboard...")
     try:

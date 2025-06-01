@@ -501,7 +501,7 @@ def main():
     # Create comprehensive report
     print("📝 Creating comprehensive report...")
     html_report = create_comprehensive_report(data)
-    with open('tool_fingerprints_report.html', 'w') as f:
+    with open('tool_fingerprints_report.html', 'w', encoding='utf-8') as f:
         f.write(html_report)
     print("   Saved to: tool_fingerprints_report.html")
     

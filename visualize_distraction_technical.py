@@ -349,7 +349,7 @@ def main():
     # Create detailed drop analysis
     print("Creating detailed drop analysis...")
     html = create_detailed_drop_analysis()
-    with open('distraction_drop_details.html', 'w') as f:
+    with open('distraction_drop_details.html', 'w', encoding='utf-8') as f:
         f.write(html)
     print("Saved to: distraction_drop_details.html")
     

@@ -269,7 +269,7 @@ def create_detailed_request_view(data):
     </html>
     """
     
-    with open('tool_intent_detailed_view.html', 'w') as f:
+    with open('tool_intent_detailed_view.html', 'w', encoding='utf-8') as f:
         f.write(html_content)
     
     return 'tool_intent_detailed_view.html'

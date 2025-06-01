@@ -59,6 +59,8 @@ def generate_simple_report(main_data, distraction_data):
     html = f"""<!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Tool Intent Analysis - Executive Summary</title>
     <style>
         body {{

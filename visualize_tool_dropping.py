@@ -346,13 +346,23 @@ def main():
     # Create main visualization
     print("Creating tool dropping visualization...")
     fig = create_tool_drop_visualization(data)
-    fig.write_html('tool_dropping_discovery.html')
+    
+    # Generate HTML with proper encoding
+    html_config = {
+        'include_plotlyjs': 'cdn',
+        'config': {'displayModeBar': False}
+    }
+    html = fig.to_html(**html_config)
+    html = html.replace('<head>', '<head>\n<meta charset="UTF-8">\n<meta http-equiv="Content-Type" content="text/html; charset=utf-8">')
+    
+    with open('tool_dropping_discovery.html', 'w', encoding='utf-8') as f:
+        f.write(html)
     print("Saved to: tool_dropping_discovery.html")
     
     # Create summary report
     print("Creating summary report...")
     html = create_summary_report(data)
-    with open('tool_dropping_summary.html', 'w') as f:
+    with open('tool_dropping_summary.html', 'w', encoding='utf-8') as f:
         f.write(html)
     print("Saved to: tool_dropping_summary.html")
     
