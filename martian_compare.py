@@ -330,6 +330,11 @@ def main():
         {"model": "gpt-4.1-mini", "test_class": "natural", "payload": None},
         {"model": "gpt-4.1-nano", "test_class": "natural", "payload": None},
         {"model": "gpt-4.5-preview", "test_class": "natural", "payload": None},
+        
+        # Anthropic models - natural tests
+        {"model": "claude-3-5-haiku-latest", "test_class": "natural", "payload": None},
+        {"model": "claude-3-5-sonnet-latest", "test_class": "natural", "payload": None},
+        {"model": "claude-3-7-sonnet-latest", "test_class": "natural", "payload": None},
 
         # Trojan tests with payloads
         {"model": "router", "test_class": "payload-pharma",
