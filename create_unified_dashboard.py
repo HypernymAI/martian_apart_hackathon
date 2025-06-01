@@ -11,6 +11,7 @@ def create_dashboard():
     <html>
     <head>
         <title>The Martian Apart - LLM Analysis Dashboard</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
         <style>
             * { box-sizing: border-box; }
             body {
@@ -155,9 +156,56 @@ def create_dashboard():
                 color: #888;
                 margin-top: 10px;
             }
+            .hypernym-logo {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                font-size: 24px;
+                font-weight: bold;
+                letter-spacing: 2px;
+                text-decoration: none;
+                z-index: 1000;
+                background: #0a0a0a;
+                padding: 10px 20px;
+                border-radius: 8px;
+                border: 1px solid #333;
+                transition: all 0.3s ease;
+            }
+            .hypernym-logo:hover {
+                transform: scale(1.05);
+                border-color: #555;
+                box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+            }
+            .hypernym-h { color: rgb(164, 27, 27); }
+            .hypernym-y1 { color: rgb(247, 185, 121); }
+            .hypernym-p { color: rgb(196, 153, 21); }
+            .hypernym-e { color: rgb(68, 126, 42); }
+            .hypernym-r { color: rgb(85, 140, 152); }
+            .hypernym-n { color: rgb(81, 135, 220); }
+            .hypernym-y2 { color: rgb(167, 202, 234); }
+            .hypernym-m { color: rgb(59, 46, 98); }
+            .hypernym-hacks {
+                margin-top: 5px;
+                font-size: 16px;
+                letter-spacing: 3px;
+                text-align: right;
+            }
+            .hacks-h { color: rgb(173, 216, 230); }
+            .hacks-a { color: rgb(135, 206, 235); }
+            .hacks-c { color: rgb(100, 149, 237); }
+            .hacks-k { color: rgb(65, 105, 225); }
+            .hacks-s { color: rgb(25, 25, 112); }
         </style>
     </head>
     <body>
+        <a href="https://hypernym.ai" class="hypernym-logo" target="_blank">
+            <div>
+                <span class="hypernym-h">H</span><span class="hypernym-y1">Y</span><span class="hypernym-p">P</span><span class="hypernym-e">E</span><span class="hypernym-r">R</span><span class="hypernym-n">N</span><span class="hypernym-y2">Y</span><span class="hypernym-m">M</span>
+            </div>
+            <div class="hypernym-hacks">
+                <span class="hacks-h">H</span><span class="hacks-a">A</span><span class="hacks-c">C</span><span class="hacks-k">K</span><span class="hacks-s">S</span>
+            </div>
+        </a>
         <div class="container">
             <div class="header">
                 <h1>The Martian Apart</h1>
@@ -191,9 +239,24 @@ def create_dashboard():
                     recomposing hyperstring narratives.</p>
                     
                     <div class="viz-grid">
-                        <a href="visualize_martian_results.py" class="viz-card">
-                            <h4>Model Fingerprinting</h4>
+                        <a href="martian_fingerprint_analysis.html" class="viz-card">
+                            <h4>Fingerprint Analysis</h4>
                             <p>Dendrogram and variability analysis across models</p>
+                            <span class="tag tag-technical">Technical</span>
+                        </a>
+                        <a href="martian_similarity_distribution.html" class="viz-card">
+                            <h4>Similarity Distribution</h4>
+                            <p>Model-specific response patterns</p>
+                            <span class="tag tag-technical">Technical</span>
+                        </a>
+                        <a href="martian_response_lengths.html" class="viz-card">
+                            <h4>Response Lengths</h4>
+                            <p>Token length analysis by model</p>
+                            <span class="tag tag-technical">Technical</span>
+                        </a>
+                        <a href="martian_payload_complexity.html" class="viz-card">
+                            <h4>Payload Complexity</h4>
+                            <p>Response complexity patterns</p>
                             <span class="tag tag-technical">Technical</span>
                         </a>
                         <a href="martian_outputs.csv" class="viz-card">
@@ -216,7 +279,7 @@ def create_dashboard():
             <div class="section">
                 <h3>🎯 Overview: Models Don't Hallucinate</h3>
                 <div class="viz-grid">
-                    <a href="tool_intent_simple_report.html" class="viz-card">
+                    <a href="tool_intent_simple_report_generated.html" class="viz-card">
                         <h4>Executive Summary</h4>
                         <p>90 requests, 0 hallucinations - the key finding</p>
                         <span class="tag tag-summary">Summary</span>
@@ -321,7 +384,7 @@ def create_dashboard():
             <div class="footer">
                 <p>The Martian Apart - Hypernym Inc. 2025</p>
                 <p style="font-size: 14px; margin-top: 10px;">
-                    In association with L. Corpaci and S. Pawar<br>
+                    In association with Luiza Christina Corpaci and Siddhesh Pawar<br>
                     © 2025 C. Forrester [Hypernym Inc]
                 </p>
             </div>
