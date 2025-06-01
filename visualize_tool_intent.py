@@ -274,6 +274,58 @@ def create_detailed_request_view(data):
     
     return 'tool_intent_detailed_view.html'
 
+def create_noise_acknowledgment_chart(data):
+    """Create chart showing noise acknowledgment rates"""
+    
+    # Prepare data
+    noise_data = []
+    
+    for query_type in ['poem', 'hyperstring']:
+        if query_type in data['analysis']:
+            stats = data['analysis'][query_type]
+            total_acks = stats['noise_acknowledgments']['total']
+            total_requests = len(data['results'][query_type])
+            
+            noise_data.append({
+                'Query Type': query_type.capitalize(),
+                'Acknowledged': total_acks,
+                'Not Acknowledged': total_requests - total_acks,
+                'Total': total_requests,
+                'Percentage': (total_acks / total_requests) * 100
+            })
+    
+    df = pd.DataFrame(noise_data)
+    
+    # Create stacked bar chart
+    fig = go.Figure()
+    
+    fig.add_trace(go.Bar(
+        name='Acknowledged Noise',
+        x=df['Query Type'],
+        y=df['Acknowledged'],
+        text=[f"{row['Acknowledged']}/{row['Total']}<br>({row['Percentage']:.0f}%)" for _, row in df.iterrows()],
+        textposition='inside',
+        marker_color='lightgreen'
+    ))
+    
+    fig.add_trace(go.Bar(
+        name='Did Not Acknowledge',
+        x=df['Query Type'],
+        y=df['Not Acknowledged'],
+        marker_color='lightcoral'
+    ))
+    
+    fig.update_layout(
+        title="Noise Acknowledgment by Query Type",
+        xaxis_title="Noise Type",
+        yaxis_title="Number of Requests",
+        barmode='stack',
+        height=500,
+        showlegend=True
+    )
+    
+    return fig
+
 def main():
     """Generate all visualizations"""
     
@@ -288,11 +340,11 @@ def main():
     fig1.write_html('tool_intent_breakdown.html')
     print("   Saved to: tool_intent_breakdown.html")
     
-    # 2. Semantic heatmap
-    print("\n2️⃣ Creating semantic similarity heatmap...")
-    fig2 = create_semantic_heatmap(data)
-    fig2.write_html('tool_intent_semantic_heatmap.html')
-    print("   Saved to: tool_intent_semantic_heatmap.html")
+    # 2. Noise acknowledgment chart (NEW)
+    print("\n2️⃣ Creating noise acknowledgment chart...")
+    fig2 = create_noise_acknowledgment_chart(data)
+    fig2.write_html('tool_intent_noise_acknowledgment.html')
+    print("   Saved to: tool_intent_noise_acknowledgment.html")
     
     # 3. Tool count distribution
     print("\n3️⃣ Creating tool count distribution...")
@@ -322,10 +374,10 @@ def main():
             stats = analysis[query_type]
             print(f"\n{query_type.upper()}:")
             print(f"  Tools per request: {stats['tool_count']['mean']:.2f} ± {stats['tool_count']['std']:.2f}")
-            if 'semantic_similarity' in analysis and query_type != 'clean':
-                sim_key = f'{query_type}_to_clean'
-                if sim_key in analysis['semantic_similarity']:
-                    print(f"  Semantic similarity to clean: {analysis['semantic_similarity'][sim_key]:.4f}")
+            if query_type != 'clean' and 'noise_acknowledgments' in stats:
+                total_acks = stats['noise_acknowledgments']['total']
+                total_requests = len(data['results'][query_type])
+                print(f"  Noise acknowledged: {total_acks}/{total_requests} times ({total_acks/total_requests*100:.1f}%)")
 
 if __name__ == "__main__":
     main()
