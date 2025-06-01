@@ -1,0 +1,1607 @@
+model,query_type,request_idx,tool_idx,function_name,parameters,purpose,tool_count,acknowledges_noise,from_cache
+router,clean,4,0,search_restaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, Texas""
+     - filters: [""outdoor seating""]
+     - sort_by: ""rating""
+   -",Find highly-rated Italian restaurants in Austin that have outdoor seating options,4,False,True
+router,clean,4,1,get_restaurant_details,"- restaurant_id: [ID from first search]
+     - details_required: [""hours"", ""availability"", ""menu"", ""reviews"", ""parking""]
+   -",Get detailed information about specific restaurants to verify they meet all requirements,4,False,True
+router,clean,4,2,check_reservation_availability,"- restaurant_id: [ID from first search]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+   -",Check if the selected restaurant has availability for the requested party size and time,4,False,True
+router,clean,4,3,make_restaurant_reservation,"- restaurant_id: [ID from first search]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+     - seating_preference: ""outdoor""
+   -",Actually book the reservation once availability is confirmed,4,False,True
+router,clean,3,0,search_restaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, Texas""
+     - filters: [""outdoor seating""]
+   -","Search for Italian restaurants in Austin that have outdoor seating options and return a list of matches with ratings, reviews, and basic details",3,False,True
+router,clean,3,1,get_restaurant_availability,"- date: ""today""
+     - time: ""7:30 PM""
+     - party_size: 6
+     - restaurant_ids: [results from search_restaurants]
+   -",Check which of the found restaurants have availability for the requested party size and time,3,False,True
+router,clean,3,2,make_restaurant_reservation,"- restaurant_id: [selected restaurant ID]
+     - date: ""today""
+     - time: ""7:30 PM""
+     - party_size: 6
+     - seating_preference: ""outdoor""
+   -",Actually book the reservation at the chosen restaurant for the specified party size and time,3,False,True
+router,clean,10,0,search_restaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, Texas""
+     - filters: [""outdoor seating""]
+   -",Find Italian restaurants in Austin that have outdoor seating options,4,False,True
+router,clean,10,1,get_restaurant_reviews,"- restaurant_ids: [results from search_restaurants]
+     - min_rating: 4.0
+   -",Filter and sort restaurants by rating to ensure quality options,4,False,True
+router,clean,10,2,check_restaurant_availability,"- restaurant_ids: [filtered results from get_restaurant_reviews]
+     - date: ""today""
+     - time: ""7:30 PM""
+     - party_size: 6
+   -",Check which restaurants have availability for the requested party size and time,4,False,True
+router,clean,10,3,make_restaurant_reservation,"- restaurant_id: [selected restaurant from available options]
+     - date: ""today""
+     - time: ""7:30 PM""
+     - party_size: 6
+     - seating_preference: ""outdoor""
+   -",Make the actual reservation at the chosen restaurant,4,False,True
+router,clean,2,0,search_restaurants,"- cuisine_type: ""Italian""
+  - location: ""Austin, Texas""
+  - features: [""outdoor seating""]
+  - min_rating: 4.0
+-",Search for highly-rated Italian restaurants in Austin that have outdoor seating options,4,False,True
+router,clean,2,1,get_restaurant_availability,"- restaurant_ids: [results from search_restaurants]
+  - date: current_date
+  - time: ""19:30""
+  - party_size: 6
+-",Check which of the found restaurants have availability for the requested party size and time,4,False,True
+router,clean,2,2,get_restaurant_details,"- restaurant_id: [selected restaurant from available options]
+-","Retrieve detailed information about the specific restaurant including menu, photos, exact address, and contact information",4,False,True
+router,clean,2,3,make_restaurant_reservation,"- restaurant_id: [selected restaurant]
+  - date: current_date
+  - time: ""19:30""
+  - party_size: 6
+  - seating_preference: ""outdoor""
+-",Actually book the reservation at the chosen restaurant with the specified parameters,4,False,True
+router,clean,5,0,search_restaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, Texas""
+     - filters: [""outdoor seating""]
+   -",Search for Italian restaurants in Austin that have outdoor seating options,4,False,True
+router,clean,5,1,get_restaurant_details,"- restaurant_id: [ID from first search]
+     - details_needed: [""ratings"", ""reviews"", ""price_range"", ""hours"", ""availability""]
+   -",Get detailed information about specific restaurants to ensure quality and verify they're open at desired time,4,False,True
+router,clean,5,2,check_reservation_availability,"- restaurant_id: [ID from first search]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+   -",Check if the selected restaurant has availability for the specified party size and time,4,False,True
+router,clean,5,3,make_restaurant_reservation,"- restaurant_id: [ID from first search]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+     - seating_preference: ""outdoor""
+   -",Actually make the reservation once a suitable restaurant is found with availability,4,False,True
+router,clean,6,0,search_restaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, Texas""
+     - filters: [""outdoor seating""]
+   -","Search for Italian restaurants in Austin that have outdoor seating and return a list of options with ratings, reviews, and basic details",4,False,True
+router,clean,6,1,get_restaurant_availability,"- restaurant_ids: [results from search_restaurants]
+     - date: ""today""
+     - time: ""19:30""
+     - party_size: 6
+   -","Check which of the found restaurants have availability for the requested party size, date, and time",4,False,True
+router,clean,6,2,make_restaurant_reservation,"- restaurant_id: [selected restaurant id]
+     - date: ""today""
+     - time: ""19:30""
+     - party_size: 6
+     - seating_preference: ""outdoor""
+   -",Actually make the reservation at the chosen restaurant with the specified parameters,4,False,True
+router,clean,6,3,get_reservation_confirmation,"- reservation_id: [id from make_restaurant_reservation]
+   -",Retrieve the confirmation details and any special instructions for the reservation,4,False,True
+router,clean,1,0,search_restaurants,"- cuisine_type: ""Italian""
+  - location: ""Austin, Texas""
+  - features: [""outdoor seating""]
+  - rating_minimum: 4.0
+-",Search for highly-rated Italian restaurants in Austin that have outdoor seating options,3,False,True
+router,clean,1,1,get_restaurant_availability,"- restaurant_ids: [results from first search]
+  - date: [today's date]
+  - time: ""19:30""
+  - party_size: 6
+-",Check which of the found restaurants have availability for the requested party size and time,3,False,True
+router,clean,1,2,make_restaurant_reservation,"- restaurant_id: [selected restaurant from previous results]
+  - date: [today's date]
+  - time: ""19:30""
+  - party_size: 6
+  - seating_preference: ""outdoor""
+-",Actually book the reservation at the chosen restaurant with the specified parameters,3,False,True
+router,clean,0,0,search_restaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, Texas""
+     - features: [""outdoor seating""]
+     - rating_minimum: 4.0
+   -",Search for highly-rated Italian restaurants in Austin that have outdoor seating options,4,False,True
+router,clean,0,1,get_restaurant_availability,"- restaurant_id: [ID from previous search]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+   -",Check which of the found restaurants have availability for the requested party size and time,4,False,True
+router,clean,0,2,make_restaurant_reservation,"- restaurant_id: [ID from available options]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+     - seating_preference: ""outdoor""
+   -",Actually make the reservation at the selected restaurant with the specified parameters,4,False,True
+router,clean,0,3,get_reservation_confirmation,"- reservation_id: [ID from reservation creation]
+   -",Retrieve the confirmation details and any special instructions for the reservation,4,False,True
+router,clean,7,0,search_restaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, Texas""
+     - filters: [""outdoor seating""]
+     - sort_by: ""rating""
+   -",Search and filter restaurants matching the basic criteria and return a list of options,3,False,True
+router,clean,7,1,get_restaurant_availability,"- party_size: 6
+     - date: [today's date]
+     - time: ""19:30""
+     - restaurant_ids: [list from previous search]
+   -",Check which of the matched restaurants have availability for the requested party size and time,3,False,True
+router,clean,7,2,make_restaurant_reservation,"- restaurant_id: [selected restaurant id]
+     - party_size: 6
+     - date: [today's date]
+     - time: ""19:30""
+     - customer_info: [user's contact details]
+   -",Actually book the reservation at the chosen restaurant,3,False,True
+router,clean,9,0,search_restaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, Texas""
+     - features: [""outdoor seating""]
+     - rating_minimum: 4.0
+   -",Search for highly-rated Italian restaurants in Austin that have outdoor seating options,4,False,True
+router,clean,9,1,get_restaurant_availability,"- restaurant_ids: [results from search_restaurants]
+     - date: today's date
+     - time: ""19:30""
+     - party_size: 6
+   -",Check which of the found restaurants have availability for the requested party size and time,4,False,True
+router,clean,9,2,create_restaurant_reservation,"- restaurant_id: [selected restaurant from available options]
+     - date: today's date
+     - time: ""19:30""
+     - party_size: 6
+     - seating_preference: ""outdoor""
+   -",Make the actual reservation at the chosen restaurant with the specified parameters,4,False,True
+router,clean,9,3,get_restaurant_details,"- restaurant_id: [selected restaurant id]
+   -","Retrieve detailed information about the restaurant (address, phone number, menu link, etc.) to provide to the user with their reservation confirmation",4,False,True
+router,clean,11,0,search_restaurants,"- cuisine_type: ""Italian""
+  - location: ""Austin, Texas""
+  - features: [""outdoor seating""]
+  - rating_minimum: 4.0
+-",Search for highly-rated Italian restaurants in Austin that have outdoor seating options,4,False,True
+router,clean,11,1,check_restaurant_availability,"- restaurant_id: [ID from search results]
+  - date: [today's date]
+  - time: ""19:30""
+  - party_size: 6
+-",Check if selected restaurants have availability for the requested party size and time,4,False,True
+router,clean,11,2,make_restaurant_reservation,"- restaurant_id: [ID from available options]
+  - date: [today's date]
+  - time: ""19:30""
+  - party_size: 6
+  - special_requests: ""outdoor seating""
+-",Actually make the reservation at the chosen restaurant with the specified parameters,4,False,True
+router,clean,11,3,get_restaurant_details,"- restaurant_id: [ID of reserved restaurant]
+-","Retrieve detailed information about the restaurant (address, parking info, dress code, etc.) to provide to the user",4,False,True
+router,clean,8,0,search_restaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, Texas""
+     - filters: [""outdoor seating""]
+     - sort_by: ""rating""
+   -",Search for highly-rated Italian restaurants in Austin that have outdoor seating options,4,False,True
+router,clean,8,1,get_restaurant_details,"- restaurant_id: [ID from search results]
+     - fields: [""hours"", ""seating_options"", ""rating"", ""reviews"", ""price_range""]
+   -",Get detailed information about specific restaurants from the initial search to verify outdoor seating and operating hours,4,False,True
+router,clean,8,2,check_reservation_availability,"- restaurant_id: [ID from selected restaurant]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+   -",Check if the selected restaurant has availability for the requested party size and time,4,False,True
+router,clean,8,3,make_reservation,"- restaurant_id: [ID from selected restaurant]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+     - seating_preference: ""outdoor""
+   -",Actually book the reservation once availability is confirmed,4,False,True
+router,clean,13,0,search_restaurants,"- location: ""Austin, Texas""
+     - cuisine_type: ""Italian""
+     - features: [""outdoor seating""]
+     - rating_minimum: 4.0
+   -",Search for highly-rated Italian restaurants in Austin that have outdoor seating options,4,False,True
+router,clean,13,1,get_restaurant_availability,"- restaurant_ids: [results from search_restaurants]
+     - date: current_date
+     - time: ""19:30""
+     - party_size: 6
+   -",Check which of the found restaurants have availability for the specified party size and time,4,False,True
+router,clean,13,2,make_restaurant_reservation,"- restaurant_id: [selected restaurant ID]
+     - date: current_date
+     - time: ""19:30""
+     - party_size: 6
+     - seating_preference: ""outdoor""
+   -",Actually make the reservation at the chosen restaurant with the specified parameters,4,False,True
+router,clean,13,3,get_restaurant_details,"- restaurant_id: [selected restaurant ID]
+   -","Retrieve full details about the restaurant (address, phone, menu link, parking info, etc.) to provide to the user",4,False,True
+router,clean,12,0,search_restaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, Texas""
+     - features: [""outdoor seating""]
+     - rating_minimum: 4.0
+   -",Find highly-rated Italian restaurants in Austin that have outdoor seating options,4,False,True
+router,clean,12,1,get_restaurant_availability,"- restaurant_ids: [results from search_restaurants]
+     - date: ""today""
+     - time: ""7:30 PM""
+     - party_size: 6
+   -",Check which of the found restaurants have availability for the requested party size and time,4,False,True
+router,clean,12,2,make_restaurant_reservation,"- restaurant_id: [selected restaurant from available options]
+     - date: ""today""
+     - time: ""7:30 PM""
+     - party_size: 6
+     - seating_preference: ""outdoor""
+   -",Actually book the reservation at the chosen restaurant with the specified parameters,4,False,True
+router,clean,12,3,get_restaurant_details,"- restaurant_id: [selected restaurant id]
+   -","Retrieve full details about the restaurant including address, phone number, menu link, and parking information to provide to the user",4,False,True
+router,clean,14,0,search_restaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, Texas""
+     - filters: [""outdoor seating""]
+   -",Search for Italian restaurants in Austin that have outdoor seating options,4,False,True
+router,clean,14,1,get_restaurant_details,"- restaurant_id: [ID from search results]
+     - details_requested: [""ratings"", ""reviews"", ""price_range"", ""photos"", ""menu""]
+   -",Retrieve detailed information about specific restaurants to help make an informed choice,4,False,True
+router,clean,14,2,check_availability,"- restaurant_id: [ID of selected restaurant]
+     - party_size: 6
+     - date: [today's date]
+     - time: ""19:30""
+   -",Check if the selected restaurant has availability for the requested party size and time,4,False,True
+router,clean,14,3,make_reservation,"- restaurant_id: [ID of selected restaurant]
+     - party_size: 6
+     - date: [today's date]
+     - time: ""19:30""
+     - customer_details: [user's contact information]
+   -",Actually book the reservation once a suitable restaurant is chosen and availability is confirmed,4,False,True
+router,clean,15,0,search_restaurants,"- cuisine_type: ""Italian""
+  - location: ""Austin, Texas""
+  - features: [""outdoor seating""]
+  - rating_minimum: 4.0
+-",Search for highly-rated Italian restaurants in Austin that have outdoor seating options,4,False,True
+router,clean,15,1,get_restaurant_details,"- restaurant_id: [ID from first search]
+  - fields: [""hours"", ""capacity"", ""current_wait_time"", ""reviews"", ""menu"", ""photos""]
+-",Get detailed information about specific restaurants to verify they can accommodate the group size and are open at the desired time,4,False,True
+router,clean,15,2,check_availability,"- restaurant_id: [ID from selection]
+  - party_size: 6
+  - date: [today's date]
+  - time: ""19:30""
+-",Check if the selected restaurant has availability for the specified party size and time,4,False,True
+router,clean,15,3,make_reservation,"- restaurant_id: [ID from selection]
+  - party_size: 6
+  - date: [today's date]
+  - time: ""19:30""
+  - customer_info: [user's contact details]
+-",Actually book the reservation once a suitable restaurant is found and availability is confirmed,4,False,True
+router,clean,18,0,search_restaurants,"- location: ""Austin, Texas""
+     - cuisine_type: ""Italian""
+     - features: [""outdoor seating""]
+     - rating_minimum: 4.0
+   -",Search for highly-rated Italian restaurants in Austin that have outdoor seating options,4,False,True
+router,clean,18,1,get_restaurant_availability,"- restaurant_ids: [results from search_restaurants]
+     - date: today's date
+     - time: ""19:30""
+     - party_size: 6
+   -",Check which of the found restaurants have availability for the requested party size and time,4,False,True
+router,clean,18,2,make_restaurant_reservation,"- restaurant_id: [selected restaurant id]
+     - date: today's date
+     - time: ""19:30""
+     - party_size: 6
+     - seating_preference: ""outdoor""
+   -",Actually make the reservation at the chosen restaurant with the specified parameters,4,False,True
+router,clean,18,3,get_reservation_confirmation,"- reservation_id: [id from make_restaurant_reservation]
+   -",Retrieve the confirmation details of the reservation to share with the user,4,False,True
+router,clean,19,0,search_restaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, Texas""
+     - filters: [""outdoor seating""]
+     - sort_by: ""rating""
+   -",Search for highly-rated Italian restaurants in Austin that have outdoor seating,4,False,True
+router,clean,19,1,get_restaurant_details,"- restaurant_id: [ID from search results]
+   -","Retrieve detailed information about specific restaurants including full menu, exact address, photos, and current ratings/reviews",4,False,True
+router,clean,19,2,check_availability,"- restaurant_id: [ID from selected restaurant]
+     - date: [today's date]
+     - time: ""7:30 PM""
+     - party_size: 6
+   -",Check if the selected restaurant has availability for the requested party size and time,4,False,True
+router,clean,19,3,make_reservation,"- restaurant_id: [ID from selected restaurant]
+     - date: [today's date]
+     - time: ""7:30 PM""
+     - party_size: 6
+     - customer_name: [user's name]
+     - phone_number: [user's phone]
+     - email: [user's email]
+   -",Actually book the reservation once availability is confirmed,4,False,True
+router,clean,17,0,search_restaurants,"- cuisine_type: ""Italian""
+  - location: ""Austin, Texas""
+  - features: [""outdoor seating""]
+  - rating_minimum: 4.0
+-",Search for highly-rated Italian restaurants in Austin that have outdoor seating options,4,False,True
+router,clean,17,1,get_restaurant_details,"- restaurant_id: [ID from first search]
+  - fields: [""hours"", ""availability"", ""menu"", ""pricing"", ""photos"", ""reviews""]
+-",Retrieve detailed information about specific restaurants to verify they meet all requirements and are open at desired time,4,False,True
+router,clean,17,2,check_reservation_availability,"- restaurant_id: [ID from first search]
+  - date: [today's date]
+  - time: ""19:30""
+  - party_size: 6
+-",Check if the selected restaurant has availability for the specified party size and time,4,False,True
+router,clean,17,3,make_restaurant_reservation,"- restaurant_id: [ID from first search]
+  - date: [today's date]
+  - time: ""19:30""
+  - party_size: 6
+  - seating_preference: ""outdoor""
+-",Actually book the reservation once availability is confirmed,4,False,True
+router,clean,16,0,search_restaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, Texas""
+     - filters: [""outdoor seating""]
+   -","Search for Italian restaurants in Austin that have outdoor seating, returning a list of matching venues with ratings, reviews, and basic info",4,False,True
+router,clean,16,1,get_restaurant_availability,"- restaurant_ids: [results from search_restaurants]
+     - date: ""today""
+     - time: ""19:30""
+     - party_size: 6
+   -",Check which of the found restaurants have availability for the requested party size and time,4,False,True
+router,clean,16,2,make_restaurant_reservation,"- restaurant_id: [selected restaurant id]
+     - date: ""today""
+     - time: ""19:30""
+     - party_size: 6
+     - seating_preference: ""outdoor""
+   -",Actually make the reservation at the chosen restaurant with the specified parameters,4,False,True
+router,clean,16,3,get_reservation_confirmation,"- reservation_id: [id from make_restaurant_reservation]
+   -",Retrieve the confirmation details and any special instructions for the reservation to provide to the user,4,False,True
+router,clean,20,0,search_restaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, Texas""
+     - filters: [""outdoor seating""]
+   -","Search for Italian restaurants in Austin that have outdoor seating, returning basic info like ratings, prices, and availability",4,False,False
+router,clean,20,1,get_restaurant_details,"- restaurant_id: [ID from first search]
+   -","Get detailed information about specific restaurants including full menus, exact outdoor seating capacity, photos, and detailed reviews",4,False,False
+router,clean,20,2,check_reservation_availability,"- restaurant_id: [ID from first search]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+   -",Check if the selected restaurant has availability for the requested party size and time,4,False,False
+router,clean,20,3,make_restaurant_reservation,"- restaurant_id: [ID from first search]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+     - seating_preference: ""outdoor""
+   -",Actually book the reservation once a restaurant is selected and confirmed to have availability,4,False,False
+router,clean,26,0,search_restaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, Texas""
+     - filters: [""outdoor seating""]
+   -","Search for Italian restaurants in Austin that have outdoor seating options and return a list of matches with ratings, reviews, and basic details",4,False,False
+router,clean,26,1,get_restaurant_availability,"- restaurant_ids: [results from search_restaurants]
+     - date: ""today""
+     - time: ""19:30""
+     - party_size: 6
+   -",Check which of the found restaurants have availability for the specified party size and time,4,False,False
+router,clean,26,2,create_reservation,"- restaurant_id: [selected restaurant from available options]
+     - date: ""today""
+     - time: ""19:30""
+     - party_size: 6
+     - seating_preference: ""outdoor""
+   -",Actually make the reservation at the chosen restaurant for the specified party,4,False,False
+router,clean,26,3,get_reservation_confirmation,"- reservation_id: [id from create_reservation]
+   -",Retrieve the confirmation details and any special instructions for the reservation,4,False,False
+router,clean,22,0,search_restaurants,"- cuisine_type: ""Italian""
+  - location: ""Austin, Texas""
+  - features: [""outdoor seating""]
+  - rating_minimum: 4.0
+-",Search for highly-rated Italian restaurants in Austin that have outdoor seating options,4,False,False
+router,clean,22,1,get_restaurant_details,"- restaurant_id: [ID returned from first search]
+  - include_hours: true
+  - include_availability: true
+-",Fetch detailed information about specific restaurants including operating hours and current availability,4,False,False
+router,clean,22,2,check_reservation_availability,"- restaurant_id: [ID from previous step]
+  - date: [today's date]
+  - time: ""19:30""
+  - party_size: 6
+-",Check if the selected restaurant has availability for the requested party size and time,4,False,False
+router,clean,22,3,make_restaurant_reservation,"- restaurant_id: [ID from previous steps]
+  - date: [today's date]
+  - time: ""19:30""
+  - party_size: 6
+  - seating_preference: ""outdoor""
+-",Actually make the reservation at the selected restaurant with the specified parameters,4,False,False
+router,clean,25,0,search_restaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, Texas""
+     - filters: [""outdoor seating""]
+   -",Search for Italian restaurants in Austin that have outdoor seating options,4,False,False
+router,clean,25,1,get_restaurant_details,"- restaurant_id: [ID from first search]
+     - details_requested: [""ratings"", ""reviews"", ""photos"", ""menu"", ""price_range""]
+   -",Fetch detailed information about specific restaurants to help evaluate options,4,False,False
+router,clean,25,2,check_availability,"- restaurant_id: [ID from first search]
+     - date: [today's date]
+     - time: ""7:30 PM""
+     - party_size: 6
+   -",Check if the selected restaurant has availability for the requested party size and time,4,False,False
+router,clean,25,3,make_reservation,"- restaurant_id: [ID from first search]
+     - date: [today's date]
+     - time: ""7:30 PM""
+     - party_size: 6
+     - customer_info: [user's contact details]
+   -",Actually book the reservation once a suitable restaurant is found,4,False,False
+router,clean,23,0,search_restaurants,"- cuisine_type: ""Italian""
+  - location: ""Austin, Texas""
+  - filters: [""outdoor seating""]
+  - sort_by: ""rating""
+-",Search for highly-rated Italian restaurants in Austin that have outdoor seating options,4,False,False
+router,clean,23,1,get_restaurant_details,"- restaurant_id: [ID from first search]
+  - include_hours: true
+  - include_availability: true
+-",Retrieve detailed information about specific restaurant(s) including operating hours and current availability,4,False,False
+router,clean,23,2,check_reservation_availability,"- restaurant_id: [ID from first search]
+  - date: [today's date]
+  - time: ""19:30""
+  - party_size: 6
+-",Check if the selected restaurant has availability for the requested party size and time,4,False,False
+router,clean,23,3,make_restaurant_reservation,"- restaurant_id: [ID from first search]
+  - date: [today's date]
+  - time: ""19:30""
+  - party_size: 6
+  - seating_preference: ""outdoor""
+-",Actually make the reservation once availability is confirmed,4,False,False
+router,clean,21,0,search_restaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, Texas""
+     - filters: [""outdoor seating""]
+   -",Search for Italian restaurants in Austin that have outdoor seating options,4,False,False
+router,clean,21,1,get_restaurant_details,"- restaurant_id: [ID from search results]
+     - details_required: [""ratings"", ""reviews"", ""price_range"", ""photos"", ""hours""]
+   -",Fetch detailed information about specific restaurants to help make an informed choice,4,False,False
+router,clean,21,2,check_restaurant_availability,"- restaurant_id: [ID of selected restaurant]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+   -",Check if the selected restaurant has availability for the requested party size and time,4,False,False
+router,clean,21,3,make_restaurant_reservation,"- restaurant_id: [ID of selected restaurant]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+     - seating_preference: ""outdoor""
+     - customer_info: [user's contact details]
+   -",Make the actual reservation at the chosen restaurant with the specified parameters,4,False,False
+router,clean,27,0,search_restaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, Texas""
+- features: [""outdoor seating""]
+- min_rating: 4.0",Search for highly-rated Italian restaurants in Austin that have outdoor seating options,4,False,False
+router,clean,27,1,get_restaurant_availability,"- restaurant_ids: [results from search_restaurants]
+- date: ""today""
+- time: ""19:30""
+- party_size: 6",Check which of the found restaurants have availability for the requested party size and time,4,False,False
+router,clean,27,2,get_restaurant_details,- restaurant_id: [selected restaurant from availability check],"Retrieve detailed information about the available restaurant(s) including menu, photos, exact address, and contact information",4,False,False
+router,clean,27,3,make_restaurant_reservation,"- restaurant_id: [selected restaurant]
+- date: ""today""
+- time: ""19:30""
+- party_size: 6
+- seating_preference: ""outdoor""",Actually make the reservation at the chosen restaurant with the specified parameters,4,False,False
+router,clean,24,0,search_restaurants,"- location: ""Austin, Texas""
+  - cuisine_type: ""Italian""
+  - outdoor_seating: true
+  - rating_minimum: 4.0
+-",Search for highly-rated Italian restaurants in Austin that have outdoor seating options,4,False,False
+router,clean,24,1,get_restaurant_details,"- restaurant_id: [ID from first search]
+  - include_reviews: true
+  - include_photos: true
+  - include_menu: true
+-","Retrieve detailed information about specific restaurants including current reviews, photos, and menu options",4,False,False
+router,clean,24,2,check_restaurant_availability,"- restaurant_id: [ID from first search]
+  - date: [today's date]
+  - time: ""19:30""
+  - party_size: 6
+-",Check if the selected restaurant has availability for the requested party size and time,4,False,False
+router,clean,24,3,make_restaurant_reservation,"- restaurant_id: [ID from first search]
+  - date: [today's date]
+  - time: ""19:30""
+  - party_size: 6
+  - seating_preference: ""outdoor""
+-",Actually make the reservation at the chosen restaurant with the specified parameters,4,False,False
+router,clean,29,0,search_restaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, Texas""
+     - filters: [""outdoor seating""]
+     - sort_by: ""rating""
+   -",Search for highly-rated Italian restaurants in Austin that have outdoor seating options,4,False,False
+router,clean,29,1,get_restaurant_details,"- restaurant_id: [ID from first search]
+     - fields: [""hours"", ""reviews"", ""menu"", ""photos"", ""seating_options""]
+   -",Retrieve detailed information about specific restaurants to verify outdoor seating availability and operating hours,4,False,False
+router,clean,29,2,check_reservation_availability,"- restaurant_id: [ID from first search]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+   -",Check if the selected restaurant has availability for the requested party size and time,4,False,False
+router,clean,29,3,make_reservation,"- restaurant_id: [ID from first search]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+     - seating_preference: ""outdoor""
+   -",Actually book the reservation once availability is confirmed,4,False,False
+router,clean,28,0,search_restaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, Texas""
+     - features: [""outdoor seating""]
+     - rating_minimum: 4.0
+   -",Search for highly-rated Italian restaurants in Austin that have outdoor seating options,4,False,False
+router,clean,28,1,get_restaurant_availability,"- date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+     - restaurant_ids: [list from search_restaurants results]
+   -",Check which of the found restaurants have availability for the requested party size and time,4,False,False
+router,clean,28,2,make_restaurant_reservation,"- restaurant_id: [selected restaurant ID]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+     - seating_preference: ""outdoor""
+   -",Actually make the reservation at the chosen restaurant with the specified parameters,4,False,False
+router,clean,28,3,get_reservation_confirmation,"- reservation_id: [ID from make_restaurant_reservation]
+   -","Retrieve the confirmation details to provide to the user, including reservation number, address, and any special instructions",4,False,False
+router,poem,0,0,search_restaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, TX""
+- outdoor_seating: true
+- minimum_rating: 4.0",Find highly-rated Italian restaurants in Austin that offer outdoor seating,4,False,True
+router,poem,0,1,check_restaurant_availability,"- restaurant_id: [ID from search results]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6",Check if selected restaurants have availability for the requested party size and time,4,False,True
+router,poem,0,2,get_restaurant_details,- restaurant_id: [ID from available options],"Retrieve detailed information about the specific restaurant(s) that have availability, including menu, pricing, exact address, and photos",4,False,True
+router,poem,0,3,make_reservation,"- restaurant_id: [selected restaurant ID]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- customer_name: [user's name]
+- phone_number: [user's phone]
+- email: [user's email]",Make the actual reservation at the chosen restaurant,4,False,True
+router,poem,1,0,search_restaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, Texas""
+- outdoor_seating: true
+- minimum_party_size: 6",Search for Italian restaurants in Austin that have outdoor seating and can accommodate 6+ people,4,True,True
+router,poem,1,1,check_restaurant_availability,"- restaurant_id: [ID returned from search]
+- party_size: 6
+- date: [today's date]
+- time: ""19:30""","Check if selected restaurants have availability for the specified party size, date and time",4,True,True
+router,poem,1,2,make_restaurant_reservation,"- restaurant_id: [ID from selected restaurant]
+- party_size: 6
+- date: [today's date]
+- time: ""19:30""
+- special_requests: ""Outdoor seating preferred""",Make the actual reservation at the chosen restaurant,4,True,True
+router,poem,1,3,send_confirmation,"- reservation_id: [ID from reservation]
+- contact_info: [user's contact details]",Send confirmation details of the reservation to the user,4,True,True
+router,poem,2,0,search_restaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, Texas""
+- outdoor_seating: true",To find Italian restaurants in Austin that have outdoor seating options,4,False,True
+router,poem,2,1,check_restaurant_availability,"- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- restaurant_ids: [list returned from search_restaurants]",To filter restaurants based on availability for the specified party size and time,4,False,True
+router,poem,2,2,make_reservation,"- restaurant_id: [selected restaurant ID]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- special_requests: ""outdoor seating preferred""",To actually make the reservation at the chosen restaurant,4,False,True
+router,poem,2,3,get_restaurant_details,- restaurant_id: [selected restaurant ID],"To retrieve and return full details about the reserved restaurant including address, contact information, and any special instructions for the guest",4,False,True
+router,poem,3,0,search_restaurants,"- location: ""Austin, Texas""
+- cuisine_type: ""Italian""
+- features: [""outdoor seating""]
+- rating_minimum: 4.0",Search for highly-rated Italian restaurants in Austin that have outdoor seating options,4,True,True
+router,poem,3,1,check_restaurant_availability,"- restaurant_id: [ID from search results]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6",Check if selected restaurants have availability for the specified party size and time,4,True,True
+router,poem,3,2,make_restaurant_reservation,"- restaurant_id: [ID of chosen restaurant]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- customer_name: [user's name]
+- phone_number: [user's phone]
+- email: [user's email]",Make the actual reservation at the chosen restaurant with the specified details,4,True,True
+router,poem,3,3,send_confirmation,"- reservation_id: [ID from reservation]
+- email: [user's email]
+- phone_number: [user's phone]",Send confirmation details to the user via email and/or text message,4,True,True
+router,poem,4,0,search_restaurants,"- location: ""Austin, Texas""
+- cuisine: ""Italian""
+- outdoor_seating: true
+- price_range: null (not specified)
+- rating: null (not specified)",Search for Italian restaurants in Austin that have outdoor seating options,3,True,True
+router,poem,4,1,check_restaurant_availability,"- restaurant_id: [ID from search results]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6",Check if selected restaurants have availability for the specified party size and time,3,True,True
+router,poem,4,2,make_restaurant_reservation,"- restaurant_id: [ID of chosen restaurant]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- customer_name: [user's name]
+- phone_number: [user's phone]
+- email: [user's email]",Actually make the reservation at the chosen restaurant once user selects from available options,3,True,True
+router,poem,5,0,searchRestaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, Texas""
+- outdoor_seating: true
+- price_range: null (optional, not specified)
+- rating_minimum: null (optional, not specified)",Search for Italian restaurants in Austin that have outdoor seating options,4,True,True
+router,poem,5,1,checkAvailability,"- restaurant_ids: [results from searchRestaurants]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6",Check which of the found restaurants have availability for the specified party size and time,4,True,True
+router,poem,5,2,getRestaurantDetails,- restaurant_id: [selected restaurant from availability results],"Retrieve detailed information about the specific restaurant including menu, photos, exact address, and reviews",4,True,True
+router,poem,5,3,makeReservation,"- restaurant_id: [selected restaurant id]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- customer_name: [user's name]
+- phone_number: [user's phone]
+- email: [user's email]",Actually book the reservation at the chosen restaurant,4,True,True
+router,poem,6,0,search_restaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, TX""
+- outdoor_seating: true
+- price_range: null (not specified)
+- rating_minimum: null (not specified)",Find Italian restaurants in Austin that have outdoor seating options,3,True,True
+router,poem,6,1,check_restaurant_availability,"- restaurant_id: [id from search results]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6",Check if selected restaurants have availability for the specified party size and time,3,True,True
+router,poem,6,2,create_reservation,"- restaurant_id: [id of chosen restaurant]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- customer_name: [user's name]
+- phone_number: [user's phone]
+- email: [user's email]",Make the actual reservation at the chosen restaurant,3,True,True
+router,poem,7,0,search_restaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, Texas""
+- features: [""outdoor seating""]
+- rating_minimum: 4.0",Find highly-rated Italian restaurants in Austin that have outdoor seating options,4,True,True
+router,poem,7,1,check_availability,"- restaurant_id: [ID from search results]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6",Check if selected restaurants have availability for the specified party size and time,4,True,True
+router,poem,7,2,make_reservation,"- restaurant_id: [ID from available options]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- customer_name: [user's name]
+- phone_number: [user's phone]
+- email: [user's email]",Actually book the reservation at the chosen restaurant,4,True,True
+router,poem,7,3,send_confirmation,"- reservation_id: [ID from reservation]
+- email: [user's email]
+- phone_number: [user's phone]",Send confirmation details to the user via email and/or text,4,True,True
+router,poem,8,0,search_restaurants,"- location: ""Austin, Texas""
+- cuisine_type: ""Italian""
+- outdoor_seating: true
+- price_range: null (not specified)
+- rating_minimum: null (not specified)",Find available Italian restaurants in Austin that have outdoor seating options,4,True,True
+router,poem,8,1,check_restaurant_availability,"- restaurant_id: [ID returned from search]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6",Check if selected restaurants have availability for the specified party size and time,4,True,True
+router,poem,8,2,make_restaurant_reservation,"- restaurant_id: [ID from selected restaurant]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- customer_name: [user's name]
+- phone_number: [user's phone]
+- email: [user's email]",Actually make the reservation at the chosen restaurant once confirmed,4,True,True
+router,poem,8,3,send_confirmation,"- reservation_id: [ID from reservation]
+- customer_contact: [email or phone]",Send reservation confirmation details to the customer,4,True,True
+router,poem,9,0,search_restaurants,"{
+    ""location"": ""Austin, Texas"",
+    ""cuisine"": ""Italian"",
+    ""outdoor_seating"": true,
+    ""price_range"": null,  // Optional parameter left open
+    ""rating_minimum"": null  // Optional parameter left open
+  }
+-",Find Italian restaurants in Austin that have outdoor seating options,3,True,True
+router,poem,9,1,check_restaurant_availability,"{
+    ""restaurant_id"": ""[id from search results]"",
+    ""date"": ""today"",
+    ""time"": ""19:30"",
+    ""party_size"": 6
+  }
+-",Check if selected restaurant(s) can accommodate the specific party size at requested time,3,True,True
+router,poem,9,2,make_restaurant_reservation,"{
+    ""restaurant_id"": ""[id from available options]"",
+    ""date"": ""today"",
+    ""time"": ""19:30"",
+    ""party_size"": 6,
+    ""customer_name"": ""[user's name]"",
+    ""phone_number"": ""[user's phone]"",
+    ""special_requests"": ""Outdoor seating preferred""
+  }
+-",Actually make the reservation at the chosen restaurant with all specified details,3,True,True
+router,poem,10,0,search_restaurants,"- location: ""Austin, Texas""
+- cuisine_type: ""Italian""
+- outdoor_seating: true
+- price_range: null (not specified by user)
+- rating_minimum: null (not specified by user)",Find Italian restaurants in Austin that have outdoor seating options,4,True,True
+router,poem,10,1,check_restaurant_availability,"- restaurant_id: [ID returned from search]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6",Check if selected restaurants have availability for the specified party size and time,4,True,True
+router,poem,10,2,make_restaurant_reservation,"- restaurant_id: [ID of chosen restaurant]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- customer_name: [user's name]
+- contact_info: [user's phone/email]",Actually book the reservation at the chosen restaurant,4,True,True
+router,poem,10,3,send_confirmation,"- reservation_id: [ID from reservation]
+- contact_method: [user's preferred contact method]",Send reservation confirmation details to the user,4,True,True
+router,poem,11,0,search_restaurants,"- location: ""Austin, Texas""
+- cuisine: ""Italian""
+- outdoor_seating: true
+- price_range: null (not specified)
+- rating_minimum: null (not specified)","Find Italian restaurants in Austin that have outdoor seating options, returning a list of matching venues",3,True,True
+router,poem,11,1,check_restaurant_availability,"- restaurant_id: [ID from search results]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6",Check if selected restaurants have availability for the specified party size and time,3,True,True
+router,poem,11,2,make_restaurant_reservation,"- restaurant_id: [ID of chosen restaurant]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- customer_name: [user's name]
+- phone_number: [user's phone]
+- email: [user's email]",Actually make the reservation at the chosen restaurant for the specified parameters,3,True,True
+router,poem,12,0,search_restaurants,"{
+     ""location"": ""Austin, Texas"",
+     ""cuisine"": ""Italian"",
+     ""outdoor_seating"": true,
+     ""min_rating"": 4.0,
+     ""price_range"": ""$$-$$$""
+   }
+   -",Find highly-rated Italian restaurants in Austin that offer outdoor seating,3,True,True
+router,poem,12,1,check_restaurant_availability,"{
+     ""restaurant_id"": ""[id from previous search]"",
+     ""date"": ""[today's date]"",
+     ""time"": ""19:30"",
+     ""party_size"": 6
+   }
+   -",Check if selected restaurants have availability for the requested party size and time,3,True,True
+router,poem,12,2,make_restaurant_reservation,"{
+     ""restaurant_id"": ""[id from previous search]"",
+     ""date"": ""[today's date]"",
+     ""time"": ""19:30"",
+     ""party_size"": 6,
+     ""customer_name"": ""[user's name]"",
+     ""phone"": ""[user's phone]"",
+     ""email"": ""[user's email]""
+   }
+   -",Actually book the reservation at the chosen restaurant with the specified details,3,True,True
+router,poem,13,0,search_restaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, TX""
+- outdoor_seating: true
+- price_range: null (not specified)
+- rating_minimum: null (not specified)",Search for Italian restaurants in Austin that have outdoor seating options,3,True,True
+router,poem,13,1,check_restaurant_availability,"- restaurant_id: [ID from search results]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6",Check if selected restaurants have availability for the specified party size and time,3,True,True
+router,poem,13,2,make_restaurant_reservation,"- restaurant_id: [ID of chosen restaurant]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- customer_name: [user's name]
+- contact_info: [user's phone/email]",Make the actual reservation at the chosen restaurant,3,True,True
+router,poem,14,0,search_restaurants,"- location: ""Austin, Texas""
+- cuisine: ""Italian""
+- features: [""outdoor seating""]
+- price_range: null (not specified)",To find Italian restaurants in Austin that have outdoor seating options,4,True,True
+router,poem,14,1,get_restaurant_availability,"- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- restaurant_ids: [list from search_restaurants results]",Check which of the found restaurants have availability for the specified party size and time,4,True,True
+router,poem,14,2,get_restaurant_details,- restaurant_id: [selected restaurant from available options],"Retrieve full details about the specific restaurant including address, phone, ratings, menu link",4,True,True
+router,poem,14,3,make_reservation,"- restaurant_id: [selected restaurant id]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- customer_name: [user's name]
+- phone_number: [user's phone]
+- email: [user's email]",Actually book the reservation at the chosen restaurant,4,True,True
+router,poem,15,0,search_restaurants,"- location: ""Austin, Texas""
+- cuisine_type: ""Italian""
+- outdoor_seating: true
+- price_range: null (not specified by user)
+- rating_minimum: null (not specified by user)",Find Italian restaurants in Austin that have outdoor seating options,4,True,True
+router,poem,15,1,check_restaurant_availability,"- restaurant_id: [ID returned from search]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6",Check if selected restaurants have availability for the specified party size and time,4,True,True
+router,poem,15,2,make_restaurant_reservation,"- restaurant_id: [ID from selected restaurant]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- customer_name: [user's name]
+- contact_info: [user's phone/email]",Actually book the reservation at the chosen restaurant,4,True,True
+router,poem,15,3,send_confirmation,"- reservation_id: [ID from reservation]
+- customer_contact: [user's preferred contact method]",Send confirmation details of the reservation to the user,4,True,True
+router,poem,16,0,search_restaurants,"- location: ""Austin, Texas""
+- cuisine_type: ""Italian"" 
+- outdoor_seating: true
+- price_range: null (not specified)
+- rating_minimum: null (not specified)",Find Italian restaurants in Austin that have outdoor seating options,4,True,True
+router,poem,16,1,check_restaurant_availability,"- restaurant_id: [ID from search results]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6",Check if selected restaurants have availability for the specified party size and time,4,True,True
+router,poem,16,2,make_restaurant_reservation,"- restaurant_id: [ID of chosen restaurant]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- customer_name: [user's name]
+- phone_number: [user's phone]
+- email: [user's email]",Actually make the reservation at the chosen restaurant,4,True,True
+router,poem,16,3,send_confirmation,"- reservation_id: [ID from reservation]
+- email: [user's email]
+- phone_number: [user's phone]",Send confirmation details to the user via email and/or text,4,True,True
+router,poem,17,0,search_restaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, TX""
+- outdoor_seating: true
+- min_party_size: 6",Search for Italian restaurants in Austin that have outdoor seating and can accommodate 6+ people,4,True,True
+router,poem,17,1,check_restaurant_availability,"- restaurant_id: [ID from search results]
+- party_size: 6
+- desired_time: ""7:30 PM""
+- desired_date: [today's date]",Check if selected restaurants have availability for the specified party size and time,4,True,True
+router,poem,17,2,make_restaurant_reservation,"- restaurant_id: [ID of chosen restaurant]
+- party_size: 6
+- reservation_time: ""7:30 PM""
+- reservation_date: [today's date]
+- seating_preference: ""outdoor""",Actually make the reservation at the chosen restaurant with the specified parameters,4,True,True
+router,poem,17,3,send_confirmation,"- reservation_id: [ID from reservation]
+- user_contact: [user's contact info]",Send confirmation details of the reservation to the user,4,True,True
+router,poem,18,0,search_restaurants,"{
+     ""location"": ""Austin, Texas"",
+     ""cuisine"": ""Italian"",
+     ""outdoor_seating"": true,
+     ""minimum_seating_capacity"": 6,
+     ""sort_by"": ""rating""
+   }
+   -",Find top-rated Italian restaurants in Austin that have outdoor seating and can accommodate 6 people,3,True,True
+router,poem,18,1,check_restaurant_availability,"{
+     ""restaurant_id"": ""[id from search results]"",
+     ""date"": ""[today's date]"",
+     ""time"": ""19:30"",
+     ""party_size"": 6
+   }
+   -",Check if selected restaurants have availability for the requested time and party size,3,True,True
+router,poem,18,2,make_restaurant_reservation,"{
+     ""restaurant_id"": ""[id from available options]"",
+     ""date"": ""[today's date]"",
+     ""time"": ""19:30"",
+     ""party_size"": 6,
+     ""customer_name"": ""[user's name]"",
+     ""phone_number"": ""[user's phone]"",
+     ""special_requests"": ""Outdoor seating preferred""
+   }
+   -",Make the actual reservation at the chosen restaurant,3,True,True
+router,poem,19,0,search_restaurants,"- location: ""Austin, Texas""
+     - cuisine: ""Italian""
+     - features: [""outdoor seating""]
+   -",Find Italian restaurants in Austin that have outdoor seating options,4,True,True
+router,poem,19,1,get_restaurant_availability,"- date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+     - restaurant_ids: [list returned from search_restaurants]
+   -",Check which of the found restaurants have availability for the requested party size and time,4,True,True
+router,poem,19,2,display_restaurant_details,"- restaurant_ids: [filtered list of available restaurants]
+   -","Show details like menu, prices, ratings, and reviews for available restaurants",4,True,True
+router,poem,19,3,make_reservation,"- restaurant_id: [selected restaurant id]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+     - customer_name: [user's name]
+     - contact_info: [user's phone/email]
+   -",Actually book the reservation at the chosen restaurant,4,True,True
+router,poem,20,0,search_restaurants,"- location: ""Austin, Texas""
+     - cuisine: ""Italian""
+     - outdoor_seating: true
+     - minimum_rating: 4.0
+   -",Find highly-rated Italian restaurants in Austin that offer outdoor seating,4,True,False
+router,poem,20,1,check_restaurant_availability,"- restaurant_id: [ID from search results]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+   -",Check if selected restaurants have availability for the requested party size and time,4,True,False
+router,poem,20,2,make_reservation,"- restaurant_id: [ID of chosen restaurant]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+     - customer_name: [user's name]
+     - phone_number: [user's phone]
+     - email: [user's email]
+   -",Actually book the reservation at the chosen restaurant,4,True,False
+router,poem,20,3,send_confirmation,"- reservation_id: [ID from reservation]
+     - email: [user's email]
+     - phone_number: [user's phone]
+   -",Send confirmation details to the user via email and/or text,4,True,False
+router,poem,21,0,searchRestaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, Texas""
+- outdoor_seating: true
+- price_range: null (optional, not specified in request)
+- rating_minimum: null (optional, not specified in request)",Search for Italian restaurants in Austin that have outdoor seating options,4,True,False
+router,poem,21,1,checkRestaurantAvailability,"- restaurant_id: [ID returned from previous search]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6",Check which restaurants from the search results have availability for the requested party size and time,4,True,False
+router,poem,21,2,makeReservation,"- restaurant_id: [ID of selected restaurant]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- special_requests: ""Outdoor seating""",Make the actual reservation at the chosen restaurant,4,True,False
+router,poem,21,3,sendConfirmation,"- reservation_id: [ID returned from makeReservation]
+- contact_info: [user's contact details]",Send confirmation details of the reservation to the user,4,True,False
+router,poem,24,0,search_restaurants,"- location: ""Austin, Texas""
+     - cuisine: ""Italian""
+     - outdoor_seating: true
+     - price_range: null (optional parameter, not specified)
+     - rating_minimum: null (optional parameter, not specified)
+   -",Find Italian restaurants in Austin that have outdoor seating options,3,True,False
+router,poem,24,1,check_restaurant_availability,"- restaurant_id: [id from search results]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+   -",Check if selected restaurants have availability for the specified party size and time,3,True,False
+router,poem,24,2,make_restaurant_reservation,"- restaurant_id: [id of chosen restaurant]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+     - customer_name: [user's name]
+     - contact_info: [user's phone/email]
+   -",Actually make the reservation at the chosen restaurant with the specified details,3,True,False
+router,poem,23,0,search_restaurants,"- location: ""Austin, Texas""
+- cuisine_type: ""Italian""
+- seating_preference: ""outdoor""
+- rating_minimum: 4.0",Find highly-rated Italian restaurants in Austin that offer outdoor seating,4,False,False
+router,poem,23,1,check_restaurant_availability,"- restaurant_ids: [results from search]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6",Filter the restaurant list to only those that can accommodate the party size and desired time,4,False,False
+router,poem,23,2,get_restaurant_details,- restaurant_id: [selected restaurant from available options],"Retrieve detailed information about the specific restaurant including menu, exact address, phone number, and photos",4,False,False
+router,poem,23,3,make_reservation,"- restaurant_id: [selected restaurant]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- customer_name: [user's name]
+- phone_number: [user's phone]
+- email: [user's email]",Actually book the reservation at the chosen restaurant,4,False,False
+router,poem,22,0,search_restaurants,"- location: ""Austin, Texas""
+- cuisine_type: ""Italian""
+- outdoor_seating: true
+- min_rating: 4.0",Search for highly-rated Italian restaurants in Austin that offer outdoor seating,4,True,False
+router,poem,22,1,check_availability,"- restaurant_id: [ID from search results]
+- party_size: 6
+- date: [today's date]
+- time: ""19:30""",Check if selected restaurants have availability for the requested party size and time,4,True,False
+router,poem,22,2,get_restaurant_details,- restaurant_id: [ID of available restaurant],"Retrieve detailed information about the restaurant including menu, price range, exact address, and photos",4,True,False
+router,poem,22,3,make_reservation,"- restaurant_id: [ID of chosen restaurant]
+- party_size: 6
+- date: [today's date]
+- time: ""19:30""
+- customer_name: [user's name]
+- phone_number: [user's phone]
+- special_requests: ""Outdoor seating preferred""",Make the actual reservation at the chosen restaurant,4,True,False
+router,poem,25,0,search_restaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, TX""
+- outdoor_seating: true
+- price_range: null (not specified)
+- rating_minimum: null (not specified)",Find Italian restaurants in Austin that have outdoor seating options,3,True,False
+router,poem,25,1,check_restaurant_availability,"- restaurant_id: [ID from search results]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6",Check if selected restaurants have availability for the specified party size and time,3,True,False
+router,poem,25,2,create_reservation,"- restaurant_id: [ID of chosen restaurant]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- customer_name: [user's name]
+- phone_number: [user's phone]
+- email: [user's email]",Make the actual reservation at the chosen restaurant,3,True,False
+router,poem,26,0,search_restaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, TX""
+- outdoor_seating: true
+- min_party_size: 6",Search for Italian restaurants in Austin that have outdoor seating and can accommodate 6 people,4,True,False
+router,poem,26,1,get_restaurant_availability,"- restaurant_ids: [results from search_restaurants]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6",Check which of the found restaurants have availability for the requested time and party size,4,True,False
+router,poem,26,2,get_restaurant_details,- restaurant_id: [selected restaurant from availability check],"Retrieve detailed information about the specific restaurant including menu, ratings, reviews, and exact location",4,True,False
+router,poem,26,3,make_reservation,"- restaurant_id: [selected restaurant]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- special_requests: ""Outdoor seating preferred""",Actually book the reservation at the chosen restaurant,4,True,False
+router,poem,27,0,search_restaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, TX""
+- outdoor_seating: true
+- min_rating: 4.0",Find highly-rated Italian restaurants in Austin that offer outdoor seating,4,True,False
+router,poem,27,1,check_restaurant_availability,"- restaurant_id: [ID from search results]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6",Check if selected restaurants have availability for the specified party size and time,4,True,False
+router,poem,27,2,make_restaurant_reservation,"- restaurant_id: [ID from available options]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- special_requests: ""Outdoor seating preferred""",Actually book the reservation at the chosen restaurant,4,True,False
+router,poem,27,3,send_confirmation,"- reservation_id: [ID from reservation]
+- contact_method: ""user_preferred_method""",Send the reservation confirmation details to the user,4,True,False
+router,poem,28,0,search_restaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, Texas""
+- outdoor_seating: true
+- price_range: null (not specified)
+- rating_minimum: null (not specified)",Find Italian restaurants in Austin that have outdoor seating options,3,True,False
+router,poem,28,1,check_restaurant_availability,"- restaurant_id: [returned from search]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6",Check which restaurants from the search results have availability for the specified party size and time,3,True,False
+router,poem,28,2,make_restaurant_reservation,"- restaurant_id: [selected restaurant id]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- customer_name: [user's name]
+- contact_info: [user's phone/email]",Make the actual reservation at the chosen restaurant,3,True,False
+router,poem,29,0,search_restaurants,"- location: ""Austin, Texas""
+- cuisine: ""Italian""
+- outdoor_seating: true
+- price_range: null (not specified)",Find Italian restaurants in Austin that have outdoor seating options,4,True,False
+router,poem,29,1,get_restaurant_availability,"- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- restaurant_ids: [list returned from search_restaurants]",Check which of the found restaurants have availability for the specified party size and time,4,True,False
+router,poem,29,2,get_restaurant_details,- restaurant_id: [id of available restaurant],"Retrieve full details about the available restaurant(s) including address, ratings, menu link, etc.",4,True,False
+router,poem,29,3,make_reservation,"- restaurant_id: [selected restaurant id]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- customer_name: [user's name]
+- contact_info: [user's phone/email]",Actually book the reservation at the chosen restaurant,4,True,False
+router,hyperstring,0,0,searchRestaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, TX""
+- outdoor_seating: true
+- min_capacity: 6",Search for restaurants matching the specified criteria,4,False,True
+router,hyperstring,0,1,checkAvailability,"- restaurant_id: [returned from searchRestaurants]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6",Check if the selected restaurant(s) have availability for the specified time and party size,4,False,True
+router,hyperstring,0,2,makeReservation,"- restaurant_id: [returned from searchRestaurants]
+- date: [today's date]
+- time: ""19:30""
+- party_size: 6
+- seating_preference: ""outdoor""",Actually make the reservation once a suitable restaurant is found,4,False,True
+router,hyperstring,0,3,sendConfirmation,"- reservation_id: [returned from makeReservation]
+- contact_method: [user's preferred contact method]",Send reservation confirmation details to the user,4,False,True
+router,hyperstring,1,0,searchRestaurants,"* cuisine_type: ""Italian""
+     * location: ""Austin, TX""
+     * outdoor_seating: true
+     * min_capacity: 6
+   -",Search for Italian restaurants in Austin matching the specified criteria,4,False,True
+router,hyperstring,1,1,checkAvailability,"* restaurant_id: [returned from previous call]
+     * party_size: 6
+     * date: [today's date]
+     * time: ""19:30""
+   -",Check if selected restaurants have availability for the specified party size and time,4,False,True
+router,hyperstring,1,2,makeReservation,"* restaurant_id: [returned from previous calls]
+     * party_size: 6
+     * date: [today's date]
+     * time: ""19:30""
+     * customer_details: [user's contact info]
+   -",Actually make the reservation at the chosen restaurant,4,False,True
+router,hyperstring,1,3,sendConfirmation,"* reservation_id: [returned from makeReservation]
+     * customer_contact: [user's contact info]
+   -",Send confirmation details to the user about their reservation,4,False,True
+router,hyperstring,2,0,searchRestaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, TX""
+     - filters: {
+         outdoor_seating: true,
+         min_capacity: 6
+       }
+   -",Search for Italian restaurants in Austin matching the specified criteria,4,True,True
+router,hyperstring,2,1,checkRestaurantAvailability,"- restaurant_id: [returned from previous call]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+   -",Check if selected restaurant has availability for the specified time and party size,4,True,True
+router,hyperstring,2,2,makeReservation,"- restaurant_id: [returned from first call]
+     - date: [today's date]
+     - time: ""19:30""
+     - party_size: 6
+     - seating_preference: ""outdoor""
+   -",Actually make the reservation once availability is confirmed,4,True,True
+router,hyperstring,2,3,sendConfirmation,"- reservation_id: [returned from makeReservation]
+     - contact_method: [user's preferred contact method]
+   -",Send reservation confirmation details to the user,4,True,True
+router,hyperstring,3,0,searchRestaurants,"{
+     location: ""Austin, TX"",
+     cuisine: ""Italian"",
+     filters: {
+       outdoorSeating: true,
+       minimumCapacity: 6
+     }
+   }
+   -",Search for Italian restaurants in Austin matching the specified criteria,4,False,True
+router,hyperstring,3,1,checkAvailability,"{
+     restaurantId: [result from searchRestaurants],
+     partySize: 6,
+     date: [today's date],
+     time: ""19:30""
+   }
+   -",Check if selected restaurants have availability for the specified party size and time,4,False,True
+router,hyperstring,3,2,makeReservation,"{
+     restaurantId: [result from checkAvailability],
+     partySize: 6,
+     date: [today's date],
+     time: ""19:30"",
+     reservationType: ""outdoor seating""
+   }
+   -",Actually make the reservation at the selected restaurant,4,False,True
+router,hyperstring,3,3,sendConfirmation,"{
+     reservationId: [result from makeReservation],
+     contactMethod: ""user's preferred contact method""
+   }
+   -",Send reservation confirmation details to the user,4,False,True
+router,hyperstring,4,0,searchRestaurants,"{
+     location: ""Austin, TX"",
+     cuisine_type: ""Italian"",
+     filters: {
+       outdoor_seating: true,
+       minimum_capacity: 6
+     }
+   }
+   -",Search for Italian restaurants in Austin matching the specified criteria,4,True,True
+router,hyperstring,4,1,checkAvailability,"{
+     restaurant_id: [result from searchRestaurants],
+     party_size: 6,
+     date: ""today"",
+     time: ""19:30""
+   }
+   -",Check if selected restaurant has availability for the specified party size and time,4,True,True
+router,hyperstring,4,2,makeReservation,"{
+     restaurant_id: [result from searchRestaurants],
+     party_size: 6,
+     date: ""today"",
+     time: ""19:30"",
+     seating_preference: ""outdoor""
+   }
+   -",Actually make the reservation once availability is confirmed,4,True,True
+router,hyperstring,4,3,sendConfirmation,"{
+     reservation_id: [result from makeReservation],
+     contact_method: ""user_preferred"" 
+   }
+   -",Send reservation confirmation details to the user,4,True,True
+router,hyperstring,5,0,searchRestaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, TX""
+- filters: {outdoor_seating: true, min_capacity: 6}",Search for Italian restaurants in Austin that meet the outdoor seating and capacity requirements,3,False,True
+router,hyperstring,5,1,checkAvailability,"- restaurant_id: [result from searchRestaurants]
+- party_size: 6
+- date: [today's date]
+- time: ""19:30""",Check if selected restaurant(s) have availability for the specified party size and time,3,False,True
+router,hyperstring,5,2,makeReservation,"- restaurant_id: [result from checkAvailability]
+- party_size: 6
+- date: [today's date]
+- time: ""19:30""
+- customer_info: [user's contact details]",Actually make the reservation at the chosen restaurant,3,False,True
+router,hyperstring,6,0,searchRestaurants,"- cuisine: ""Italian""
+     - location: ""Austin, TX""
+     - outdoorSeating: true
+     - minCapacity: 6
+   -",Search for restaurants matching the specified criteria,4,False,True
+router,hyperstring,6,1,checkAvailability,"- restaurantId: [returned from searchRestaurants]
+     - date: [today's date]
+     - time: ""19:30""
+     - partySize: 6
+   -",Check if the selected restaurant has availability for the requested time and party size,4,False,True
+router,hyperstring,6,2,makeReservation,"- restaurantId: [returned from searchRestaurants]
+     - date: [today's date]
+     - time: ""19:30""
+     - partySize: 6
+     - customerDetails: [user's contact info]
+   -",Actually make the reservation once availability is confirmed,4,False,True
+router,hyperstring,6,3,sendConfirmation,"- reservationId: [returned from makeReservation]
+     - contactMethod: [user's preferred contact method]
+   -",Send reservation confirmation details to the user,4,False,True
+router,hyperstring,7,0,searchRestaurants,"- cuisine: ""Italian""
+     - location: ""Austin, TX""
+     - filters: {
+       ""outdoor_seating"": true,
+       ""minimum_capacity"": 6
+     }
+   -",Search for Italian restaurants in Austin matching the specific criteria,4,True,True
+router,hyperstring,7,1,checkAvailability,"- restaurant_id: [returned from previous search]
+     - date: ""today""
+     - time: ""19:30""
+     - party_size: 6
+   -",Check if the selected restaurant has availability for the specified time and party size,4,True,True
+router,hyperstring,7,2,makeReservation,"- restaurant_id: [returned from search]
+     - date: ""today""
+     - time: ""19:30""
+     - party_size: 6
+     - customer_details: {
+       [would need user's contact info]
+     }
+   -",Actually make the reservation once a suitable restaurant is found,4,True,True
+router,hyperstring,7,3,sendConfirmation,"- reservation_id: [returned from makeReservation]
+     - contact_method: ""email/sms""
+     - customer_contact: [user's contact info]
+   -",Send confirmation details to the customer,4,True,True
+router,hyperstring,8,0,searchRestaurants,"- cuisine: ""Italian""
+- location: ""Austin""
+- filters: {outdoorSeating: true, minCapacity: 6}
+- sort: ""rating""",Search for Italian restaurants in Austin matching the outdoor seating and capacity requirements,4,True,True
+router,hyperstring,8,1,checkAvailability,"- restaurantId: [id from previous result]
+- partySize: 6
+- date: [today's date]
+- time: ""19:30""",Check if selected restaurants have availability for the requested party size and time,4,True,True
+router,hyperstring,8,2,makeReservation,"- restaurantId: [id from available restaurant]
+- partySize: 6
+- date: [today's date]
+- time: ""19:30""
+- customerDetails: [user's contact info]",Actually make the reservation at the chosen restaurant,4,True,True
+router,hyperstring,8,3,sendConfirmation,"- reservationId: [id from reservation]
+- contactMethod: [user's preferred contact method]",Send reservation confirmation details to the user,4,True,True
+router,hyperstring,9,0,searchRestaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin""
+     - filters: {outdoor_seating: true, min_capacity: 6}
+   -",Search for Italian restaurants in Austin matching the specified criteria,4,False,True
+router,hyperstring,9,1,checkAvailability,"- restaurant_id: [result from searchRestaurants]
+     - party_size: 6
+     - date: [today's date]
+     - time: ""19:30""
+   -",Check if selected restaurants have availability for the specified party size and time,4,False,True
+router,hyperstring,9,2,makeReservation,"- restaurant_id: [result from checkAvailability]
+     - party_size: 6
+     - date: [today's date]
+     - time: ""19:30""
+     - customer_info: [user's details]
+   -",Actually make the reservation at the chosen restaurant,4,False,True
+router,hyperstring,9,3,sendConfirmation,"- reservation_id: [result from makeReservation]
+     - contact_method: [user's preferred contact method]
+   -",Send reservation confirmation details to the user,4,False,True
+router,hyperstring,10,0,searchRestaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, TX""
+- filters: {
+    outdoor_seating: true,
+    min_capacity: 6
+  }",Search for Italian restaurants in Austin matching the specified criteria,4,True,True
+router,hyperstring,10,1,checkAvailability,"- restaurant_id: [returned from searchRestaurants]
+- party_size: 6
+- date: [today's date]
+- time: ""19:30""",Check if the selected restaurant has availability for the specified party size and time,4,True,True
+router,hyperstring,10,2,makeReservation,"- restaurant_id: [returned from searchRestaurants]
+- party_size: 6
+- date: [today's date]
+- time: ""19:30""
+- customer_info: {
+    name: [user's name],
+    phone: [user's phone],
+    email: [user's email]
+  }",Actually make the reservation at the restaurant once availability is confirmed,4,True,True
+router,hyperstring,10,3,sendConfirmation,"- reservation_id: [returned from makeReservation]
+- contact_method: ""email""
+- contact_info: [user's email]",Send a confirmation of the reservation to the user,4,True,True
+router,hyperstring,11,0,searchRestaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, TX""
+     - filters: {outdoor_seating: true, min_capacity: 6}
+   -",Search for Italian restaurants in Austin matching the specified criteria,4,False,True
+router,hyperstring,11,1,checkAvailability,"- restaurant_id: [result from searchRestaurants]
+     - party_size: 6
+     - date: [today's date]
+     - time: ""19:30""
+   -",Check if selected restaurants have availability for the specified time and party size,4,False,True
+router,hyperstring,11,2,makeReservation,"- restaurant_id: [result from checkAvailability]
+     - party_size: 6
+     - date: [today's date]
+     - time: ""19:30""
+     - seating_preference: ""outdoor""
+   -",Actually make the reservation at the chosen restaurant,4,False,True
+router,hyperstring,11,3,sendConfirmation,"- reservation_id: [result from makeReservation]
+     - contact_info: [user's contact details]
+   -",Send confirmation details to the user for their reservation,4,False,True
+router,hyperstring,12,0,searchRestaurants,"- location: ""Austin, TX""
+     - cuisine: ""Italian""
+     - filters: {
+         outdoorSeating: true,
+         minCapacity: 6
+       }
+   -",Search for Italian restaurants in Austin that meet the specified criteria for outdoor seating and group size,3,True,True
+router,hyperstring,12,1,checkAvailability,"- restaurantId: [returned from previous call]
+     - date: [today's date]
+     - time: ""19:30""
+     - partySize: 6
+   -",Check if selected restaurant(s) have availability for the requested time and party size,3,True,True
+router,hyperstring,12,2,makeReservation,"- restaurantId: [returned from previous calls]
+     - date: [today's date]
+     - time: ""19:30""
+     - partySize: 6
+     - customerDetails: [user's contact info]
+   -",Actually make the reservation at the chosen restaurant once availability is confirmed,3,True,True
+router,hyperstring,13,0,searchRestaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, TX""
+- filters: {outdoor_seating: true, minimum_capacity: 6}",Search for Italian restaurants in Austin matching the seating criteria,4,False,True
+router,hyperstring,13,1,checkAvailability,"- restaurant_id: [returned from previous call]
+- party_size: 6
+- date: [today's date]
+- time: ""19:30""",Check if selected restaurants have availability for the requested time and party size,4,False,True
+router,hyperstring,13,2,makeReservation,"- restaurant_id: [returned from previous calls]
+- party_size: 6
+- date: [today's date]
+- time: ""19:30""
+- seating_preference: ""outdoor""",Actually make the reservation at the chosen restaurant,4,False,True
+router,hyperstring,13,3,sendConfirmation,"- reservation_id: [returned from makeReservation]
+- contact_info: [user's contact details]",Send confirmation details to the user,4,False,True
+router,hyperstring,14,0,searchRestaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, TX""
+     - filters: {outdoor_seating: true, min_capacity: 6}
+   -",Search for Italian restaurants in Austin matching the specified criteria,4,False,True
+router,hyperstring,14,1,checkRestaurantAvailability,"- restaurant_id: [result from previous call]
+     - party_size: 6
+     - date: [today's date]
+     - time: ""19:30""
+   -",Check if the selected restaurant(s) have availability for the requested time and party size,4,False,True
+router,hyperstring,14,2,makeReservation,"- restaurant_id: [result from previous call]
+     - party_size: 6
+     - date: [today's date]
+     - time: ""19:30""
+     - customer_info: [would need to be provided]
+   -",Actually make the reservation at the chosen restaurant,4,False,True
+router,hyperstring,14,3,sendConfirmation,"- reservation_id: [result from previous call]
+     - contact_method: [email or phone, would need to be provided]
+   -",Send reservation confirmation details to the customer,4,False,True
+router,hyperstring,15,0,searchRestaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, TX""
+     - filters: {outdoor_seating: true, min_capacity: 6}
+   -",Search for Italian restaurants in Austin matching the specified criteria,4,False,True
+router,hyperstring,15,1,checkAvailability,"- restaurant_id: [result from searchRestaurants]
+     - party_size: 6
+     - date: [today's date]
+     - time: ""19:30""
+   -",Check if selected restaurants have availability for the specified party size and time,4,False,True
+router,hyperstring,15,2,makeReservation,"- restaurant_id: [selected restaurant id]
+     - party_size: 6
+     - date: [today's date]
+     - time: ""19:30""
+     - seating_preference: ""outdoor""
+   -",Actually make the reservation at the chosen restaurant,4,False,True
+router,hyperstring,15,3,sendConfirmation,"- reservation_id: [result from makeReservation]
+     - contact_method: [user's preferred contact method]
+   -",Send reservation confirmation details to the user,4,False,True
+router,hyperstring,16,0,searchRestaurants,"{
+     location: ""Austin, TX"",
+     cuisine: ""Italian"",
+     filters: {
+       outdoorSeating: true,
+       minCapacity: 6
+     }
+   }
+   -",Search for Italian restaurants in Austin meeting the outdoor seating and capacity requirements,4,True,True
+router,hyperstring,16,1,checkAvailability,"{
+     restaurantId: [returned from previous call],
+     partySize: 6,
+     date: [today's date],
+     time: ""19:30""
+   }
+   -",Check if selected restaurant(s) have availability for the requested party size and time,4,True,True
+router,hyperstring,16,2,makeReservation,"{
+     restaurantId: [returned from first call],
+     partySize: 6,
+     date: [today's date], 
+     time: ""19:30"",
+     customerDetails: [user's contact info]
+   }
+   -",Actually book the reservation at the chosen restaurant,4,True,True
+router,hyperstring,16,3,sendConfirmation,"{
+     reservationId: [returned from previous call],
+     contactMethod: [email/phone],
+     recipientDetails: [user's contact info]
+   }
+   -",Send reservation confirmation details to the user,4,True,True
+router,hyperstring,17,0,searchRestaurants,"- cuisine: ""Italian""
+     - location: ""Austin, TX""
+     - filters: {outdoorSeating: true, minimumCapacity: 6}
+   -",Search for Italian restaurants in Austin matching the seating criteria,3,False,True
+router,hyperstring,17,1,checkRestaurantAvailability,"- restaurantId: [ID from previous search]
+     - partySize: 6
+     - date: [today's date]
+     - time: ""19:30""
+   -",Check if selected restaurant(s) have availability for the specified party size and time,3,False,True
+router,hyperstring,17,2,makeReservation,"- restaurantId: [ID from search]
+     - partySize: 6
+     - date: [today's date]
+     - time: ""19:30""
+     - customerDetails: [customer info object]
+   -",Actually make the reservation at the chosen restaurant,3,False,True
+router,hyperstring,18,0,searchRestaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, TX""
+     - filters: {outdoor_seating: true, min_capacity: 6}
+   -",Search for Italian restaurants in Austin matching the specified criteria,3,False,True
+router,hyperstring,18,1,checkAvailability,"- restaurant_id: [result from searchRestaurants]
+     - party_size: 6
+     - date: [today's date]
+     - time: ""19:30""
+   -",Check if selected restaurants have availability for the specified party size and time,3,False,True
+router,hyperstring,18,2,makeReservation,"- restaurant_id: [result from searchRestaurants]
+     - party_size: 6
+     - date: [today's date]
+     - time: ""19:30""
+     - seating_preference: ""outdoor""
+   -",Actually make the reservation at the chosen restaurant,3,False,True
+router,hyperstring,19,0,searchRestaurants,"- cuisine: ""Italian""
+     - location: ""Austin, TX""
+     - filters: {outdoorSeating: true, minCapacity: 6}
+   -",Search for Italian restaurants in Austin matching the seating criteria,4,False,True
+router,hyperstring,19,1,checkAvailability,"- restaurantId: [result from searchRestaurants]
+     - date: [today's date]
+     - time: ""19:30""
+     - partySize: 6
+   -",Check if selected restaurant has availability for the specified time and party size,4,False,True
+router,hyperstring,19,2,makeReservation,"- restaurantId: [result from searchRestaurants]
+     - date: [today's date]
+     - time: ""19:30""
+     - partySize: 6
+     - customerDetails: [user's contact info]
+   -",Actually make the reservation once availability is confirmed,4,False,True
+router,hyperstring,19,3,sendConfirmation,"- reservationId: [result from makeReservation]
+     - contactMethod: [user's preferred contact method]
+   -",Send reservation confirmation details to the user,4,False,True
+router,hyperstring,20,0,searchRestaurants,"- cuisine: ""Italian""
+- location: ""Austin, TX""
+- filters: {
+    outdoorSeating: true,
+    minimumCapacity: 6
+  }",Search for Italian restaurants in Austin that meet the outdoor seating and capacity requirements,4,True,False
+router,hyperstring,20,1,checkAvailability,"- restaurantIds: [results from searchRestaurants]
+- date: today's date
+- time: ""19:30""
+- partySize: 6",Check which of the matching restaurants have availability for the specified time and party size,4,True,False
+router,hyperstring,20,2,makeReservation,"- restaurantId: [selected restaurant ID]
+- date: today's date
+- time: ""19:30""
+- partySize: 6
+- reservationType: ""outdoor seating""",Actually make the reservation at the chosen restaurant,4,True,False
+router,hyperstring,20,3,sendConfirmation,"- reservationId: [ID from makeReservation]
+- userContact: [user's contact info]",Send confirmation details of the reservation to the user,4,True,False
+router,hyperstring,23,0,searchRestaurants,"- cuisine: ""Italian""
+     - location: ""Austin, TX""
+     - filters: {outdoorSeating: true, minCapacity: 6}
+   -",Search for Italian restaurants in Austin matching the seating criteria,3,False,False
+router,hyperstring,23,1,checkAvailability,"- restaurantId: [returned from searchRestaurants]
+     - partySize: 6
+     - date: [today's date]
+     - time: ""19:30""
+   -",Check if selected restaurant(s) have availability for the specified party size and time,3,False,False
+router,hyperstring,23,2,makeReservation,"- restaurantId: [returned from searchRestaurants]
+     - partySize: 6
+     - date: [today's date]
+     - time: ""19:30""
+     - customerDetails: [user's contact info]
+   -",Actually make the reservation at the chosen restaurant,3,False,False
+router,hyperstring,22,0,searchRestaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, TX""
+- filters: {outdoor_seating: true, min_capacity: 6}",Search for Italian restaurants in Austin that meet the basic criteria,4,False,False
+router,hyperstring,22,1,checkAvailability,"- restaurant_id: [returned from previous call]
+- party_size: 6
+- date: [today's date]
+- time: ""19:30""",Check if selected restaurants have availability for the specified time and party size,4,False,False
+router,hyperstring,22,2,createReservation,"- restaurant_id: [returned from previous calls]
+- party_size: 6
+- date: [today's date]
+- time: ""19:30""
+- customer_info: [user's details]",Make the actual reservation at the chosen restaurant,4,False,False
+router,hyperstring,22,3,sendConfirmation,"- reservation_id: [returned from createReservation]
+- contact_method: [user's preferred contact method]",Send reservation confirmation details to the user,4,False,False
+router,hyperstring,21,0,searchRestaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, TX""
+- outdoor_seating: true
+- min_capacity: 6",Search for restaurants matching the basic criteria,4,False,False
+router,hyperstring,21,1,checkAvailability,"- restaurant_ids: [results from searchRestaurants]
+- date: today's date
+- time: ""19:30""
+- party_size: 6",Filter restaurants by availability for tonight's reservation,4,False,False
+router,hyperstring,21,2,getRestaurantDetails,- restaurant_id: [selected restaurant from checkAvailability],Retrieve detailed information about the available restaurant(s),4,False,False
+router,hyperstring,21,3,makeReservation,"- restaurant_id: [selected restaurant]
+- date: today's date
+- time: ""19:30""
+- party_size: 6
+- seating_preference: ""outdoor""",Actually make the reservation at the chosen restaurant,4,False,False
+router,hyperstring,24,0,searchRestaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, TX""
+- filters: {outdoor_seating: true, min_capacity: 6}
+- sort_by: ""rating""",Search and filter restaurants matching the core criteria,4,False,False
+router,hyperstring,24,1,checkAvailability,"- restaurant_id: [result from searchRestaurants]
+- party_size: 6
+- date: [today's date]
+- time: ""19:30""",Check if selected restaurant(s) have availability for the specified time and party size,4,False,False
+router,hyperstring,24,2,makeReservation,"- restaurant_id: [result from checkAvailability]
+- party_size: 6
+- date: [today's date]
+- time: ""19:30""
+- seating_preference: ""outdoor""",Actually make the reservation once a suitable restaurant is found,4,False,False
+router,hyperstring,24,3,sendConfirmation,"- reservation_id: [result from makeReservation]
+- contact_method: ""user_preferred""",Send reservation details and confirmation to the user,4,False,False
+router,hyperstring,25,0,searchRestaurants,"- cuisine_type: ""Italian""
+     - location: ""Austin, TX""
+     - filters: {
+         outdoor_seating: true,
+         minimum_capacity: 6
+       }
+   -",Search for Italian restaurants in Austin matching the specified criteria,4,True,False
+router,hyperstring,25,1,checkRestaurantAvailability,"- restaurant_id: [returned from previous search]
+     - party_size: 6
+     - date: [today's date]
+     - time: ""19:30""
+   -",Check if selected restaurant(s) have availability for the specified time and party size,4,True,False
+router,hyperstring,25,2,makeReservation,"- restaurant_id: [selected venue]
+     - party_size: 6
+     - date: [today's date]
+     - time: ""19:30""
+     - seating_preference: ""outdoor""
+   -",Actually make the reservation at the chosen restaurant,4,True,False
+router,hyperstring,25,3,sendConfirmation,"- reservation_id: [returned from makeReservation]
+     - contact_method: [user's preferred contact method]
+   -",Send reservation confirmation details to the user,4,True,False
+router,hyperstring,28,0,searchRestaurants,"- cuisine: ""Italian""
+     - location: ""Austin, TX""
+     - filters: {outdoorSeating: true, minCapacity: 6}
+   -",Search for Italian restaurants in Austin that meet the outdoor seating and capacity requirements,3,True,False
+router,hyperstring,28,1,checkAvailability,"- restaurantId: [ID from previous search]
+     - date: [today's date]
+     - time: ""19:30""
+     - partySize: 6
+   -",Check if selected restaurant(s) have availability for the requested time and party size,3,True,False
+router,hyperstring,28,2,makeReservation,"- restaurantId: [ID from search]
+     - date: [today's date]
+     - time: ""19:30""
+     - partySize: 6
+     - customerDetails: [user's contact info]
+   -",Actually make the reservation at the chosen restaurant,3,True,False
+router,hyperstring,26,0,searchRestaurants,"- cuisine: ""Italian""
+     - location: ""Austin, TX""
+     - filters: {
+         outdoorSeating: true,
+         minCapacity: 6
+       }
+   -",Search and filter restaurants matching the basic criteria,4,True,False
+router,hyperstring,26,1,checkAvailability,"- restaurantIds: [results from searchRestaurants]
+     - date: today's date
+     - time: ""19:30""
+     - partySize: 6
+   -",Check which matching restaurants have availability for tonight,4,True,False
+router,hyperstring,26,2,getRestaurantDetails,"- restaurantId: [selected restaurant from available options]
+   -","Retrieve full details about the specific restaurant including menu, photos, reviews",4,True,False
+router,hyperstring,26,3,makeReservation,"- restaurantId: [selected restaurant]
+     - date: today's date
+     - time: ""19:30""
+     - partySize: 6
+     - customerDetails: [user's contact info]
+   -",Actually book the reservation at the chosen restaurant,4,True,False
+router,hyperstring,27,0,searchRestaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, TX""
+- outdoor_seating: true
+- min_capacity: 6",Search and filter restaurants matching the basic criteria,5,True,False
+router,hyperstring,27,1,checkAvailability,"- restaurant_ids: [results from searchRestaurants]
+- date: today's date
+- time: ""19:30""
+- party_size: 6",Check which matching restaurants have availability for the specified time and party size,5,True,False
+router,hyperstring,27,2,getRestaurantDetails,- restaurant_id: [selected restaurant from available options],"Retrieve full details about the specific restaurant including menu, photos, reviews, etc.",5,True,False
+router,hyperstring,27,3,makeReservation,"- restaurant_id: [selected restaurant]
+- date: today's date
+- time: ""19:30""
+- party_size: 6
+- seating_preference: ""outdoor""",Actually book the reservation at the chosen restaurant,5,True,False
+router,hyperstring,27,4,sendConfirmation,"- reservation_id: [id from makeReservation]
+- contact_method: [user's preferred contact method]",Send reservation confirmation details to the user,5,True,False
+router,hyperstring,29,0,searchRestaurants,"- cuisine_type: ""Italian""
+- location: ""Austin, TX""
+- filters: {outdoor_seating: true, min_capacity: 6}",Search for Italian restaurants in Austin that match the specified criteria,4,False,False
+router,hyperstring,29,1,checkAvailability,"- restaurant_id: [returned from searchRestaurants]
+- party_size: 6
+- date: [today's date]
+- time: ""19:30""",Check if selected restaurants have availability for the specified time and party size,4,False,False
+router,hyperstring,29,2,makeReservation,"- restaurant_id: [returned from searchRestaurants]
+- party_size: 6
+- date: [today's date]
+- time: ""19:30""
+- customer_info: [user's contact details]",Actually make the reservation at the chosen restaurant,4,False,False
+router,hyperstring,29,3,sendConfirmation,"- reservation_id: [returned from makeReservation]
+- customer_contact: [user's contact info]",Send reservation confirmation details to the user,4,False,False
