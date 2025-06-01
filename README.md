@@ -1,6 +1,8 @@
 # 🛸 The Martian Chronicles: A Model Mystery 🔮
 
-### <span style="color:rgb(164,27,27)">H</span><span style="color:rgb(247,185,121)">Y</span><span style="color:rgb(196,153,21)">P</span><span style="color:rgb(68,126,42)">E</span><span style="color:rgb(85,140,152)">R</span><span style="color:rgb(81,135,220)">N</span><span style="color:rgb(167,202,234)">Y</span><span style="color:rgb(59,46,98)">M</span>
+**Built for:** [Apart x Martian Mechanistic Router Interpretability Hackathon](https://apartresearch.com/sprints/apart-x-martian-mechanistic-router-interpretability-hackathon-2025-05-30-to-2025-06-01)
+
+**Technology Providers:** [Martian](https://withmartian.com) | [Apart](https://apart.ai) | [Hypernym](https://hypernym.com)
 
 **When You Gaze Into The API, The API Gazes Back**
 
