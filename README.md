@@ -77,7 +77,7 @@ open martian_apart_site/index.html
 ```
 
 ## Project Structure
-
+(NOTE due to timing/key/withmartian account site issues I have not had the opportunity to validate the final directory refactoring - it will look like this next update!)
 ```
 martian_apart_hackathon/
 ├── Core Scripts
