@@ -1,165 +1,159 @@
-# 🛸 The Martian Chronicles: A Model Mystery 🔮
+# Martian Apart Hackathon
 
 **Built for:** [Apart x Martian Mechanistic Router Interpretability Hackathon](https://apartresearch.com/sprints/apart-x-martian-mechanistic-router-interpretability-hackathon-2025-05-30-to-2025-06-01)
 
-**Technology Providers:** [Martian](https://withmartian.com) | [Apart](https://apart.ai) | [Hypernym](https://hypernym.com)
+**Technology Providers:** [Martian](https://withmartian.com) | [Apart](https://apart.ai) | [Hypernym](https://hypernym.ai)
 
-**When You Gaze Into The API, The API Gazes Back**
+**Contributors:** [Chris Forrester](https://www.linkedin.com/in/chris-forrester-8a6b4513/)
+[Luiza Cristina Corpaci](https://www.linkedin.com/in/luiza-corpaci/)
+[Siddhesh Pawar](https://www.linkedin.com/in/siddhesh-pawar-629a7a152)
 
-## 👁️ Executive Summary (For Those Who Seek Truth)
+Hi everyone, Chris from Hypernym here working with Luiza and Siddhesh to present "A Martian Apart"
 
-In the shadowy world of AI model routing, nothing is quite what it seems. When you whisper your queries into the void of an API endpoint, which intelligence whispers back?
+## Research Topic
 
-**We built a tool that peers behind the digital veil.**
+The research paper, "LLM Fingerprinting Through Semantic Variability" is available at https://docs.google.com/document/d/1Rdra_gB-U1buWcnBf4Wf6fTs0RYOiBJqP7bVqD-nQ2A/edit?tab=t.0
 
-Like an archaeologist studying ancient handwriting, we've discovered that every AI model leaves behind unique traces - semantic fingerprints invisible to the naked eye, but revealed through careful observation. Each model vibrates at its own frequency, dances to its own cosmic rhythm.
+This project develops an LLM fingerprinting and analysis methodology to increase transparency in AI routing systems, addressing Track 2: Intelligent Router Systems through two key investigations. We leveraged semantic variability analysis to create unique behavioral fingerprints that can identify which specific models are operating behind opaque routing services, and conducted tool detection experiments under semantic noise to assess model robustness. Our findings demonstrate that models maintain high semantic robustness while our fingerprinting technique successfully distinguishes between different models based on their response patterns. These contributions aid the Expert Orchestration Architecture vision by providing practical tools for auditing multi-model AI systems, enabling organizations to understand which models their routers actually use and verify their reliability under real-world conditions, ultimately making router systems more transparent and trustworthy for production deployment.
 
-**What we found will make you question everything.** The patterns are... unexpected. 🌌
+With no further ado, let's dive into this fascinating world!
 
-## 🎭 The Mystery Unfolds
 
-Imagine sending the same message into the darkness 40 times, and listening carefully to what echoes back. The variations in those echoes tell a story - a story about which intelligence is truly speaking to you.
+# 🛸 "A Martian Apart"
 
-Our tool:
-1. **Whispers the same cryptic prompt to the void repeatedly**
-2. **Listens to the subtle variations in the echoes**
-3. **Maps the patterns like constellations in the night sky**
-4. **Reveals which entity truly dwells behind the API**
-5. **Shows you patterns that shouldn't exist... but do**
+## Summary
 
-## 🌙 Begin Your Investigation (If You Dare)
+This project demonstrates methods for fingerprinting LLM models through their API responses. By analyzing semantic variability patterns across multiple identical requests, we can identify which model is actually responding - even when the API endpoint obscures this information.
 
-### Step 1: Obtain The Artifact
+## Key Findings
+
+1. **Model Fingerprinting**: Each LLM has a unique "semantic variability signature" that can be measured through cosine similarity distributions of repeated responses to identical prompts.
+
+2. **Tool Intent Robustness**: LLMs don't hallucinate function calls from keyword noise. Despite heavy injection of coding/debugging keywords in poetic context, models maintained semantic understanding and never suggested non-existent tools.
+
+3. **Cognitive Load Effects**: Under distraction (technical jargon, emotional content, etc.), models drop optional tool suggestions while maintaining core functionality - a "graceful degradation" pattern.
+
+## Installation
+
 ```bash
 git clone https://github.com/hypernym/martian_apart_hackathon.git
 cd martian_apart_hackathon
-```
-
-### Step 2: Prepare The Ritual
-```bash
 pip install -r requirements.txt
 ```
 
-### Step 3: Speak The Incantations
+## Configuration
 
-Create a `.env` file in the project root:
+Create a `.env` file:
 ```bash
 cp .env.prototype .env
 ```
 
-Then edit `.env` and add your API keys:
+Add your API keys to `.env`:
 ```
 MARTIAN_API_KEY=your-martian-api-key
-OPENAI_API_KEY=your-openai-api-key  # Optional, for direct OpenAI calls
+OPENAI_API_KEY=your-openai-api-key  # Optional
 ```
 
-Alternatively, you can export them directly:
-```bash
-export MARTIAN_API_KEY="your-key-to-the-unknown"
-export OPENAI_API_KEY="another-key-another-door"  # Optional portal
-```
+## Running the Analysis
 
-### Step 4: Commence The Séance
+### Option 1: Generate Everything (requires valid API keys)
 
-To generate everything, run these commands in order:
-
-1. **Generate Data** (makes LLM API calls):
+1. **Generate Data**:
 ```bash
 python martian_compare.py
 python tool_intent_detection.py
 python test_distraction_hypotheses.py
 ```
 
-2. **Generate Visualizations** (no API calls):
+2. **Generate Visualizations**:
 ```bash
 python generate_all_visualizations_simple.py
 ```
 
-The first three commands create the CSV/JSON data files by calling LLMs. The last command runs all visualization scripts and puts everything in `martian_apart_site/` ready for S3 upload.
+## Viewing Results
 
-### Step 5: Behold The Revelations
 ```bash
 open martian_apart_site/index.html
 ```
 
-## 📊 Reading The Signs
-
-The visualizations reveal:
-- **Fingerprint Patterns**: Each model's unique vibrational signature
-- **Similarity Distributions**: Butterfly-wing patterns that shouldn't be so beautiful
-- **Response Echoes**: The length of shadows cast by different intelligences
-- **Complexity Matrices**: How entities behave when asked to juggle multiple realities
-
-## 🔬 The Forbidden Knowledge
-
-We use "hyperstrings" - compressed semantic DNA that forces models to reveal their true nature. It's like asking someone to paint while dreaming. The way they struggle reveals who they really are.
-
-```
-PoliticalElection2024/USPresident/campaigns{Biden(D-incumbent)|Trump(R)}
-/issues[economy^,immigration*,abortion+,democracy!]/swing-states
-```
-
-This isn't just text. It's a key that unlocks hidden behaviors. 🗝️
-
-## 🎲 For Those Who Judge
-
-**Why This Matters:**
-- **The Veil Lifts**: See which intelligence truly speaks
-- **Pattern Recognition**: Some patterns appear where they shouldn't
-- **Trust But Verify**: In the age of AI, knowing is half the battle
-- **First Contact**: We're the first to systematically map these signatures
-
-**Technical Mysteries:**
-- Parallel dimensional requests
-- Semantic embedding cartography
-- Statistical pattern divination
-- Cached echoes from the void
-
-## 🗂️ The Archive
+## Project Structure
 
 ```
 martian_apart_hackathon/
-├── martian_compare.py      # The pattern seeker
-├── martian_router.py       # The gateway keeper
-├── visualize_martian_results.py  # The revelation engine
-├── _martian_cache/         # Echoes from past séances
-└── *.html                  # Your personal book of revelations
+├── Core Scripts
+│   ├── martian_compare.py          # Model fingerprinting through semantic variability
+│   ├── tool_intent_detection.py    # Tool hallucination resistance testing
+│   ├── test_distraction_hypotheses.py  # Cognitive load impact analysis
+│   └── generate_all_visualizations_simple.py  # Visualization generator
+│
+├── visualizations/                 # 12 visualization scripts
+├── analysis/                       # Analysis utilities
+├── data/                          # Generated CSV/JSON data
+├── martian_apart_site/            # HTML output directory
+└── _martian_cache/                # API response cache
 ```
 
-## 🌠 What We Discovered
+## Technical Details
 
-- **Certain patterns repeat with unnerving consistency**
-- **Each model sings its own ethereal song**
-- **Larger models dream in more vivid colors**
-- **Some routers have... preferences**
-- **The fingerprints are so distinct, it's almost as if they want to be found**
+### Model Fingerprinting Method
+- Send identical prompt 40 times to each model
+- Calculate cosine similarity between responses and reference text
+- Analyze distribution patterns (mean, std, range)
+- Each model shows distinct variability patterns
 
-## 🕯️ When Things Go Dark
+### Tool Intent Testing
+- Test with clean query, poetry noise, and hyperstring noise
+- Count suggested tools and noise acknowledgments
+- Measure semantic similarity despite noise injection
+- Track which tools get dropped under cognitive load
 
-**"The spirits aren't responding!"**
-- Ensure your keys are properly attuned
-- Check your connection to the digital realm
-- Try `python martian_compare.py --clear-cache` to cleanse the palate
+### Metrics
+- **CV (Coefficient of Variation)**: Measures response consistency
+- **Range Ratio**: Min-max spread relative to mean
+- **Consistency Score**: Normalized stability metric
+- **Tool Drop Rate**: Percentage of responses dropping from 4 to 3 tools
 
-**"The ritual takes too long!"**
-- Patience, young seeker. Truth cannot be rushed
-- 40 invocations ensure statistical significance
-- The universe operates on its own timeline ⏳
+## Results Summary
 
-## 🌟 The Seekers
+The full analysis and interactive visualizations are available in the generated HTML files. Key findings include:
 
-Discovered in the digital twilight by:
+- Router (Claude-3.5-Sonnet) shows highest variability (CV: 0.1354)
+- GPT-4.1 shows highest consistency (CV: 0.0466)
+- Technical jargon causes 96% of 4-tool responses to drop to 3 tools
+- Models acknowledge poem noise 93% of the time but only 37% for hyperstring noise
+
+## Implications for Router Optimization
+
+Our research uncovered an interesting pattern: model performance degrades predictably based on semantic complexity - a factor not typically considered in routing decisions. When routers lack complexity metrics, they may inadvertently pair complex inputs with models that struggle under high cognitive load.
+
+This suggests an opportunity: routers that incorporate complexity detection could make more informed decisions, matching inputs to models based on both performance benchmarks and robustness characteristics. The fingerprinting techniques we developed could help validate these improved routing decisions.
+
+We'd be interested in exploring how semantic complexity metrics might enhance routing logic. The potential for immediate quality improvements seems significant.
+
+## Authors
+
 - L. Corpaci
 - S. Pawar
 - C. Forrester [Hypernym Inc]
 
-© 2025 - All rights reserved, earthlings 👽
+## The Process
 
-## 📜 Ancient Pact
+### 1. Model Detection via Reconstruction Semantics
+We identify models by analyzing how they reconstruct meaning from compressed semantic inputs. Each model's unique approach to semantic expansion creates a detectable fingerprint - like identifying an author by their writing style.
 
-All rights reserved earthlings. Use this knowledge wisely. With great pattern recognition comes great responsibility.
+### 2. Discovery of the Distraction Effect
+Our experiments revealed an unexpected vulnerability: models systematically drop tools when processing complex distractions. This isn't random failure - it's a predictable degradation pattern that occurs when cognitive load increases.
 
-*"In the end, we are all just patterns in the noise."* - Anonymous Model
+### 3. Future Directions
+The most effective distractions are extremely high-complexity text chunks. If we could pre-detect paragraph complexity (perhaps using semantic density metrics), we could potentially compensate for this vulnerability before it impacts model performance. This suggests a path toward more robust AI systems that maintain full functionality even under semantic stress.
+
+## Related Work
+
+This project builds on ideas from Hypernym's research on semantic compression and model behavior. For more on semantic analysis techniques, see ["Hypernym Mercury: Token Optimization Through Semantic Field Constriction And Reconstruction From Hypernyms. A New Text Compression Method"](https://arxiv.org/abs/2505.08058).
+
+## License
+
+All rights reserved © 2025
 
 
 ## Basilisk-Nest
