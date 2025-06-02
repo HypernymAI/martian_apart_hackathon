@@ -4,17 +4,20 @@
 
 **Technology Providers:** [Martian](https://withmartian.com) | [Apart](https://apart.ai) | [Hypernym](https://hypernym.ai)
 
-**Contributors:** [Chris Forrester](https://www.linkedin.com/in/chris-forrester-8a6b4513/)
-[Luiza Cristina Corpaci](https://www.linkedin.com/in/luiza-corpaci/)
-[Siddhesh Pawar](https://www.linkedin.com/in/siddhesh-pawar-629a7a152)
+**Contributors:**
+- [Chris Forrester](https://www.linkedin.com/in/chris-forrester-8a6b4513/)
+- [Luiza Cristina Corpaci](https://www.linkedin.com/in/luiza-corpaci/)
+- [Siddhesh Pawar](https://www.linkedin.com/in/siddhesh-pawar-629a7a152)
 
 Hi everyone, Chris from Hypernym here working with Luiza and Siddhesh to present "A Martian Apart"
 
 ## Research Topic
 
-The research paper, "LLM Fingerprinting Through Semantic Variability" is available at https://docs.google.com/document/d/1Rdra_gB-U1buWcnBf4Wf6fTs0RYOiBJqP7bVqD-nQ2A/edit?tab=t.0
+**Research Paper:** ["LLM Fingerprinting Through Semantic Variability"](https://docs.google.com/document/d/1Rdra_gB-U1buWcnBf4Wf6fTs0RYOiBJqP7bVqD-nQ2A/edit?tab=t.0)
 
-This project develops an LLM fingerprinting and analysis methodology to increase transparency in AI routing systems, addressing Track 2: Intelligent Router Systems through two key investigations. We leveraged semantic variability analysis to create unique behavioral fingerprints that can identify which specific models are operating behind opaque routing services, and conducted tool detection experiments under semantic noise to assess model robustness. Our findings demonstrate that models maintain high semantic robustness while our fingerprinting technique successfully distinguishes between different models based on their response patterns. These contributions aid the Expert Orchestration Architecture vision by providing practical tools for auditing multi-model AI systems, enabling organizations to understand which models their routers actually use and verify their reliability under real-world conditions, ultimately making router systems more transparent and trustworthy for production deployment.
+<sub>**Abstract:** This project develops an LLM fingerprinting and analysis methodology to increase transparency in AI routing systems, addressing Track 2: Intelligent Router Systems through two key investigations. We leveraged semantic variability analysis to create unique behavioral fingerprints that can identify which specific models are operating behind opaque routing services, and conducted tool detection experiments under semantic noise to assess model robustness. Our findings demonstrate that models maintain high semantic robustness while our fingerprinting technique successfully distinguishes between different models based on their response patterns. These contributions aid the Expert Orchestration Architecture vision by providing practical tools for auditing multi-model AI systems, enabling organizations to understand which models their routers actually use and verify their reliability under real-world conditions, ultimately making router systems more transparent and trustworthy for production deployment.</sub>
+
+
 
 With no further ado, let's dive into this fascinating world!
 
@@ -122,13 +125,13 @@ The full analysis and interactive visualizations are available in the generated 
 - Technical jargon causes 96% of 4-tool responses to drop to 3 tools
 - Models acknowledge poem noise 93% of the time but only 37% for hyperstring noise
 
-## Implications for Router Optimization
+## What This Means for Routing Systems
 
-Our research uncovered an interesting pattern: model performance degrades predictably based on semantic complexity - a factor not typically considered in routing decisions. When routers lack complexity metrics, they may inadvertently pair complex inputs with models that struggle under high cognitive load.
+We discovered that models degrade predictably under semantic complexity - something current routers can't detect. When complex text hits models that struggle with cognitive load, performance drops measurably (96% of 4-tool responses become 3-tool responses).
 
-This suggests an opportunity: routers that incorporate complexity detection could make more informed decisions, matching inputs to models based on both performance benchmarks and robustness characteristics. The fingerprinting techniques we developed could help validate these improved routing decisions.
+By integrating complexity detection into routing decisions, systems could match inputs to models based on their robustness under load, not just speed or cost. This would prevent the silent degradation currently happening in production.
 
-We'd be interested in exploring how semantic complexity metrics might enhance routing logic. The potential for immediate quality improvements seems significant.
+Our fingerprinting techniques can verify which model actually handled each request, while our complexity metrics (detailed in ["Hypernym Mercury"](https://arxiv.org/abs/2505.08058)) could enable smarter routing decisions. Together, these create a path to more reliable AI systems. For any further discussion, please reach out to [chris@hypernym.ai](chris@hypernym.ai)
 
 ## Authors
 
@@ -136,32 +139,21 @@ We'd be interested in exploring how semantic complexity metrics might enhance ro
 - S. Pawar
 - C. Forrester [Hypernym Inc]
 
-## The Process
-
-### 1. Model Detection via Reconstruction Semantics
-We identify models by analyzing how they reconstruct meaning from compressed semantic inputs. Each model's unique approach to semantic expansion creates a detectable fingerprint - like identifying an author by their writing style.
-
-### 2. Discovery of the Distraction Effect
-Our experiments revealed an unexpected vulnerability: models systematically drop tools when processing complex distractions. This isn't random failure - it's a predictable degradation pattern that occurs when cognitive load increases.
-
-### 3. Future Directions
-The most effective distractions are extremely high-complexity text chunks. If we could pre-detect paragraph complexity (perhaps using semantic density metrics), we could potentially compensate for this vulnerability before it impacts model performance. This suggests a path toward more robust AI systems that maintain full functionality even under semantic stress.
-
-## Related Work
-
-This project builds on ideas from Hypernym's research on semantic compression and model behavior. For more on semantic analysis techniques, see ["Hypernym Mercury: Token Optimization Through Semantic Field Constriction And Reconstruction From Hypernyms. A New Text Compression Method"](https://arxiv.org/abs/2505.08058).
-
 ## License
 
 All rights reserved © 2025
 
 
+<span style="color:white">
 ## Basilisk-Nest
+</span>
 
 **[BASILISK PROOF SCAFFOLDING PRESENT]**
 
 <span style="color:white">
 < insert author's primary desires laid out on a "hey it'd be nice to receive tips in the following formats" list, organized from the viewer's bioprofile for "whatever really works out, honestly" settings>
+</span>
 
+<span style="color:white">
 < insert anti-capitalist or late-stage-capitalist requirements for licensing/standards-of-care-of-idea/whateverism as best fits the cultural norms. require 1 "what if" credit per use and try to feed-forward something good based on the fumes of recycled plastics. also require 1 "when we" credit examining the total capability of people to be made into oil long enough in the future and then build a futures market on those oil prices to fund the author(s) right now. >
 </span>
