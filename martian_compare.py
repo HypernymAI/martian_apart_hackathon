@@ -20,7 +20,7 @@ from tqdm import tqdm
 
 # Cache and output directories
 CACHE_DIR = "_martian_cache"
-OUTPUT_CSV = "martian_outputs.csv"
+OUTPUT_CSV = "data/martian_outputs.csv"
 os.makedirs(CACHE_DIR, exist_ok=True)
 
 # Initialize embedding model
@@ -384,7 +384,7 @@ def main():
             print(f"{r['model']:<20} FAILED - No successful runs")
 
     # Save results
-    with open("martian_model_fingerprints.json", "w") as f:
+    with open("data/martian_model_fingerprints.json", "w") as f:
         json.dump(results, f, indent=2)
     print("\nResults saved to martian_model_fingerprints.json")
 

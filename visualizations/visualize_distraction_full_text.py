@@ -4,13 +4,16 @@ Show the full distraction texts and their effects
 """
 
 import json
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from distraction_hypotheses import TECHNICAL_OVERLOAD, EMOTIONAL_OVERLOAD, COMPETING_TASKS, NUMERICAL_OVERLOAD, META_COMMENTARY
 
 def create_full_text_comparison():
     """Create visualization showing full distraction texts"""
     
     # Load results
-    with open('distraction_hypothesis_full_results.json', 'r') as f:
+    with open('data/distraction_hypothesis_full_results.json', 'r') as f:
         data = json.load(f)
     
     stats = data['hypothesis_stats']

@@ -261,7 +261,7 @@ def create_dashboard():
                             <p>Response complexity patterns</p>
                             <span class="tag tag-technical">Technical</span>
                         </a>
-                        <a href="martian_outputs.csv" class="viz-card">
+                        <a href="data/martian_outputs.csv" class="viz-card">
                             <h4>Raw Data</h4>
                             <p>Complete response dataset with similarity scores</p>
                             <span class="tag tag-technical">Data</span>
@@ -365,17 +365,17 @@ def create_dashboard():
             <div class="section">
                 <h3>📁 Data Access</h3>
                 <div class="viz-grid">
-                    <a href="tool_intent_results_router.csv" class="viz-card">
+                    <a href="data/tool_intent_results_router.csv" class="viz-card">
                         <h4>Tool Intent Results</h4>
                         <p>CSV with all 90 tool detection responses</p>
                         <span class="tag tag-technical">Data</span>
                     </a>
-                    <a href="distraction_hypothesis_results.csv" class="viz-card">
+                    <a href="data/distraction_hypothesis_results.csv" class="viz-card">
                         <h4>Distraction Results</h4>
                         <p>CSV with 180 distraction experiment responses</p>
                         <span class="tag tag-technical">Data</span>
                     </a>
-                    <a href="distraction_hypothesis_full_results.json" class="viz-card">
+                    <a href="data/distraction_hypothesis_full_results.json" class="viz-card">
                         <h4>Complete JSON Data</h4>
                         <p>Full experimental data with all responses</p>
                         <span class="tag tag-technical">Data</span>

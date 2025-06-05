@@ -22,7 +22,9 @@ def main():
     print(f"✓ Created {OUTPUT_DIR}/")
     
     # Check what visualization scripts actually exist
-    viz_scripts = [f for f in os.listdir('.') if f.startswith('visualize_') and f.endswith('.py')]
+    viz_scripts = []
+    if os.path.exists('visualizations'):
+        viz_scripts = [f for f in os.listdir('visualizations') if f.startswith('visualize_') and f.endswith('.py')]
     print(f"\n📋 Found {len(viz_scripts)} visualization scripts:")
     for script in viz_scripts:
         print(f"   - {script}")
@@ -32,16 +34,16 @@ def main():
     for script in viz_scripts:
         print(f"\n🔄 Running {script}...")
         try:
-            subprocess.run([sys.executable, script], check=True)
+            subprocess.run([sys.executable, os.path.join('visualizations', script)], check=True)
             print(f"   ✓ Success")
         except:
             print(f"   ✗ Failed")
     
     # Also run the tool intent reports generator
-    if os.path.exists('generate_tool_intent_reports.py'):
+    if os.path.exists('visualizations/generate_tool_intent_reports.py'):
         print(f"\n🔄 Running generate_tool_intent_reports.py...")
         try:
-            subprocess.run([sys.executable, 'generate_tool_intent_reports.py'], check=True)
+            subprocess.run([sys.executable, 'visualizations/generate_tool_intent_reports.py'], check=True)
             print(f"   ✓ Success")
         except:
             print(f"   ✗ Failed")
@@ -65,9 +67,9 @@ def main():
             print(f"   ✗ Failed to move {file}: {e}")
     
     # Copy data files
-    data_files = ['martian_outputs.csv', 'tool_intent_parallel_router.json', 
-                  'tool_intent_results_router.csv', 'distraction_hypothesis_results.csv',
-                  'distraction_hypothesis_full_results.json']
+    data_files = ['data/martian_outputs.csv', 'data/tool_intent_parallel_router.json', 
+                  'data/tool_intent_results_router.csv', 'data/distraction_hypothesis_results.csv',
+                  'data/distraction_hypothesis_full_results.json']
     
     for file in data_files:
         if os.path.exists(file):

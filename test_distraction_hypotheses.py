@@ -243,7 +243,7 @@ def analyze_results(all_results, clean_baseline):
 def save_results_to_csv(all_results, hypothesis_stats):
     """Save detailed results to CSV"""
     
-    with open('distraction_hypothesis_results.csv', 'w', newline='') as csvfile:
+    with open('data/distraction_hypothesis_results.csv', 'w', newline='') as csvfile:
         fieldnames = ['hypothesis', 'request_idx', 'tool_count', 'acknowledges_distraction',
                      'mean_tools', 'drop_rate', 'tool_reduction']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -321,7 +321,7 @@ def main():
     print("\n💾 Results saved to distraction_hypothesis_results.csv")
     
     # Save full results
-    with open('distraction_hypothesis_full_results.json', 'w') as f:
+    with open('data/distraction_hypothesis_full_results.json', 'w') as f:
         json.dump({
             'timestamp': datetime.now().isoformat(),
             'clean_baseline': clean_results,

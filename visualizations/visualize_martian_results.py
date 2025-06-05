@@ -9,7 +9,7 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 import numpy as np
 
-def load_martian_data(csv_file='martian_outputs.csv'):
+def load_martian_data(csv_file='data/martian_outputs.csv'):
     """Load and preprocess the Martian outputs CSV"""
     df = pd.read_csv(csv_file)
     df['timestamp'] = pd.to_datetime(df['timestamp'])
@@ -566,7 +566,7 @@ def main():
         print("Saved: martian_payload_complexity.html")
 
     # Save metrics to CSV for further analysis
-    metrics_df.to_csv("martian_fingerprint_metrics.csv", index=False)
+    metrics_df.to_csv("data/martian_fingerprint_metrics.csv", index=False)
     print("\nSaved metrics to: martian_fingerprint_metrics.csv")
 
     print("\nVisualization complete! Open the HTML files in your browser to view.")
