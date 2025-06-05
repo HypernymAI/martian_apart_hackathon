@@ -12,11 +12,11 @@ from collections import Counter, defaultdict
 
 def load_results():
     """Load all result files"""
-    with open('distraction_hypothesis_full_results.json', 'r') as f:
+    with open('data/distraction_hypothesis_full_results.json', 'r') as f:
         full_results = json.load(f)
     
     # Load CSV for detailed analysis
-    df = pd.read_csv('distraction_hypothesis_results.csv')
+    df = pd.read_csv('data/distraction_hypothesis_results.csv')
     
     return full_results, df
 
@@ -258,7 +258,7 @@ def create_comprehensive_technical_viz(full_results, df):
 def create_detailed_drop_analysis():
     """Create detailed analysis of what specifically gets dropped"""
     
-    with open('distraction_hypothesis_full_results.json', 'r') as f:
+    with open('data/distraction_hypothesis_full_results.json', 'r') as f:
         data = json.load(f)
     
     html = """

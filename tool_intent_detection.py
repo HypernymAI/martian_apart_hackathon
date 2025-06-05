@@ -238,7 +238,7 @@ def run_parallel_test(model="router", num_requests=30, max_workers=8):
         'analysis': analysis
     }
 
-    filename = f"tool_intent_parallel_{model.replace('/', '_')}.json"
+    filename = f"data/tool_intent_parallel_{model.replace('/', '_')}.json"
     with open(filename, 'w') as f:
         json.dump(output, f, indent=2)
 
@@ -383,7 +383,7 @@ def analyze_results(results, model):
 
 def save_results_to_csv(results, model):
     """Save detailed results to CSV for visualization"""
-    csv_filename = f"tool_intent_results_{model.replace('/', '_')}.csv"
+    csv_filename = f"data/tool_intent_results_{model.replace('/', '_')}.csv"
     
     with open(csv_filename, 'w', newline='', encoding='utf-8') as csvfile:
         fieldnames = [
@@ -443,7 +443,7 @@ def run_multi_model_comparison(models=None, num_requests=30):
             all_results[model] = {"error": str(e)}
 
     # Save combined results
-    with open("tool_intent_multi_model_comparison.json", "w") as f:
+    with open("data/tool_intent_multi_model_comparison.json", "w") as f:
         json.dump({
             "timestamp": datetime.now().isoformat(),
             "models_tested": models,

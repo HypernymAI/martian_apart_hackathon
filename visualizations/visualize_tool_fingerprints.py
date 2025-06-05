@@ -11,7 +11,7 @@ import networkx as nx
 from collections import defaultdict, Counter
 import numpy as np
 
-def load_results(filename="tool_intent_parallel_router.json"):
+def load_results(filename="data/tool_intent_parallel_router.json"):
     """Load the tool intent detection results"""
     with open(filename, 'r') as f:
         return json.load(f)

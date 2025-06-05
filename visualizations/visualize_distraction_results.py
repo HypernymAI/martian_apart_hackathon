@@ -10,7 +10,7 @@ import numpy as np
 
 def load_results():
     """Load the distraction hypothesis results"""
-    with open('distraction_hypothesis_full_results.json', 'r') as f:
+    with open('data/distraction_hypothesis_full_results.json', 'r') as f:
         return json.load(f)
 
 def create_killer_viz(data):

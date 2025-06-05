@@ -8,7 +8,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 
-def load_results(filename="tool_intent_parallel_router.json"):
+def load_results(filename="data/tool_intent_parallel_router.json"):
     """Load the tool intent detection results"""
     with open(filename, 'r') as f:
         return json.load(f)

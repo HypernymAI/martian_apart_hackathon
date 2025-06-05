@@ -23,11 +23,11 @@ OUTPUT_DIR = 'martian_apart_site'
 
 # Define required data files (must exist before running visualizations)
 REQUIRED_DATA_FILES = {
-    'martian_outputs.csv': 'Run: python martian_compare.py',
-    'tool_intent_parallel_router.json': 'Run: python tool_intent_detection.py',
-    'tool_intent_results_router.csv': 'Run: python tool_intent_detection.py',
-    'distraction_hypothesis_results.csv': 'Run: python test_distraction_hypotheses.py',
-    'distraction_hypothesis_full_results.json': 'Run: python test_distraction_hypotheses.py'
+    'data/martian_outputs.csv': 'Run: python martian_compare.py',
+    'data/tool_intent_parallel_router.json': 'Run: python tool_intent_detection.py',
+    'data/tool_intent_results_router.csv': 'Run: python tool_intent_detection.py',
+    'data/distraction_hypothesis_results.csv': 'Run: python test_distraction_hypotheses.py',
+    'data/distraction_hypothesis_full_results.json': 'Run: python test_distraction_hypotheses.py'
 }
 
 # Define all visualization generators (NO LLM CALLS)
@@ -37,7 +37,7 @@ VIZ_GENERATORS = [
     {
         'script': 'visualize_martian_results.py',
         'description': 'Generate Martian fingerprinting visualizations',
-        'requires': ['martian_outputs.csv'],
+        'requires': ['data/martian_outputs.csv'],
         'outputs': [
             'martian_fingerprint_analysis.html',
             'martian_similarity_distribution.html',
@@ -50,7 +50,7 @@ VIZ_GENERATORS = [
     # {
     #     'script': 'visualize_tool_intent.py',
         'description': 'Generate initial tool intent visualizations',
-        'requires': ['tool_intent_parallel_router.json', 'tool_intent_results_router.csv'],
+        'requires': ['data/tool_intent_parallel_router.json', 'data/tool_intent_results_router.csv'],
         'outputs': [
             'tool_intent_breakdown.html',
             'tool_intent_semantic_heatmap.html',
@@ -62,7 +62,7 @@ VIZ_GENERATORS = [
     {
         'script': 'visualize_tool_intent_clean.py',
         'description': 'Generate clean tool intent visualizations',
-        'requires': ['tool_intent_parallel_router.json', 'tool_intent_results_router.csv'],
+        'requires': ['data/tool_intent_parallel_router.json', 'data/tool_intent_results_router.csv'],
         'outputs': [
             'tool_intent_clean.html',
             'tool_intent_simple_report.html',
@@ -72,7 +72,7 @@ VIZ_GENERATORS = [
     {
         'script': 'visualize_tool_fingerprints.py',
         'description': 'Generate tool fingerprint visualizations',
-        'requires': ['tool_intent_parallel_router.json'],
+        'requires': ['data/tool_intent_parallel_router.json'],
         'outputs': [
             'tool_fingerprints_interactive.html',
             'tool_fingerprints_report.html'
@@ -81,7 +81,7 @@ VIZ_GENERATORS = [
     {
         'script': 'visualize_tool_stability.py',
         'description': 'Generate tool stability visualizations',
-        'requires': ['tool_intent_parallel_router.json'],
+        'requires': ['data/tool_intent_parallel_router.json'],
         'outputs': [
             'tool_stability_main.html',
             'tool_stability_differences.html'
@@ -90,13 +90,13 @@ VIZ_GENERATORS = [
     {
         'script': 'visualize_tool_patterns.py',
         'description': 'Generate tool pattern analysis',
-        'requires': ['tool_intent_parallel_router.json'],
+        'requires': ['data/tool_intent_parallel_router.json'],
         'outputs': ['tool_patterns_analysis.html']
     },
     {
         'script': 'visualize_tool_dropping.py',
         'description': 'Generate tool dropping visualizations',
-        'requires': ['tool_intent_parallel_router.json'],
+        'requires': ['data/tool_intent_parallel_router.json'],
         'outputs': [
             'tool_dropping_discovery.html',
             'tool_dropping_summary.html'
@@ -107,7 +107,7 @@ VIZ_GENERATORS = [
     {
         'script': 'visualize_distraction_results.py',
         'description': 'Generate distraction effectiveness visualizations',
-        'requires': ['distraction_hypothesis_results.csv', 'distraction_hypothesis_full_results.json'],
+        'requires': ['data/distraction_hypothesis_results.csv', 'data/distraction_hypothesis_full_results.json'],
         'outputs': [
             'distraction_effectiveness.html',
             'distraction_summary.html'
@@ -116,7 +116,7 @@ VIZ_GENERATORS = [
     {
         'script': 'visualize_distraction_technical.py',
         'description': 'Generate technical distraction analysis',
-        'requires': ['distraction_hypothesis_full_results.json'],
+        'requires': ['data/distraction_hypothesis_full_results.json'],
         'outputs': [
             'distraction_technical_analysis.html',
             'distraction_drop_details.html'
@@ -125,7 +125,7 @@ VIZ_GENERATORS = [
     {
         'script': 'visualize_distraction_full_text.py',
         'description': 'Generate full text distraction analysis',
-        'requires': ['distraction_hypothesis_full_results.json'],
+        'requires': ['data/distraction_hypothesis_full_results.json'],
         'outputs': ['distraction_full_text_analysis.html']
     },
     
@@ -133,8 +133,8 @@ VIZ_GENERATORS = [
     {
         'script': 'generate_tool_intent_reports.py',
         'description': 'Generate data-driven tool intent report',
-        'requires': ['tool_intent_parallel_router.json', 'tool_intent_results_router.csv', 
-                    'distraction_hypothesis_results.csv'],
+        'requires': ['data/tool_intent_parallel_router.json', 'data/tool_intent_results_router.csv', 
+                    'data/distraction_hypothesis_results.csv'],
         'outputs': ['tool_intent_simple_report_generated.html']
     }
 ]

@@ -11,19 +11,19 @@ def load_all_data():
     """Load data from JSON and CSV files"""
     
     # Load main results
-    with open('tool_intent_parallel_router.json', 'r') as f:
+    with open('data/tool_intent_parallel_router.json', 'r') as f:
         main_data = json.load(f)
     
     # Load distraction results if available
     distraction_data = None
-    if os.path.exists('distraction_hypothesis_full_results.json'):
-        with open('distraction_hypothesis_full_results.json', 'r') as f:
+    if os.path.exists('data/distraction_hypothesis_full_results.json'):
+        with open('data/distraction_hypothesis_full_results.json', 'r') as f:
             distraction_data = json.load(f)
     
     # Load CSV data
     csv_data = None
-    if os.path.exists('tool_intent_results_router.csv'):
-        csv_data = pd.read_csv('tool_intent_results_router.csv')
+    if os.path.exists('data/tool_intent_results_router.csv'):
+        csv_data = pd.read_csv('data/tool_intent_results_router.csv')
     
     return main_data, distraction_data, csv_data
 
