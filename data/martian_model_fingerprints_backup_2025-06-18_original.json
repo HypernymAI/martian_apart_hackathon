@@ -1,0 +1,57 @@
+[
+  {
+    "model": "openai/gpt-3.5-turbo",
+    "cv_mean": 0.06474339962005615,
+    "cv_std": 0.012837450951337814,
+    "range_mean": 0.1294867992401123,
+    "range_std": 0.02567490190267563,
+    "consistency_mean": 0.8654950261116028,
+    "consistency_std": 0.02425948530435562,
+    "runs_completed": 4,
+    "test_class": "natural"
+  },
+  {
+    "model": "openai/gpt-4o-mini",
+    "cv_mean": 0.05018394812941551,
+    "cv_std": 0.007963674142956734,
+    "range_mean": 0.10036789625883102,
+    "range_std": 0.015927348285913467,
+    "consistency_mean": 0.8966019153594971,
+    "consistency_std": 0.017193306237459183,
+    "runs_completed": 4,
+    "test_class": "natural"
+  },
+  {
+    "model": "openai/gpt-4.1-nano",
+    "cv_mean": 0.06657078862190247,
+    "cv_std": 0.02463608793914318,
+    "range_mean": 0.13314157724380493,
+    "range_std": 0.04927217587828636,
+    "consistency_mean": 0.8813371658325195,
+    "consistency_std": 0.039119843393564224,
+    "runs_completed": 4,
+    "test_class": "natural"
+  },
+  {
+    "model": "openai/gpt-4.1-mini",
+    "cv_mean": 0.07224638015031815,
+    "cv_std": 0.0249355249106884,
+    "range_mean": 0.1444927603006363,
+    "range_std": 0.0498710498213768,
+    "consistency_mean": 0.8509936332702637,
+    "consistency_std": 0.04837988317012787,
+    "runs_completed": 4,
+    "test_class": "natural"
+  },
+  {
+    "model": "openai/gpt-4.1",
+    "cv_mean": 0.05609554424881935,
+    "cv_std": 0.01616617664694786,
+    "range_mean": 0.1121910884976387,
+    "range_std": 0.03233235329389572,
+    "consistency_mean": 0.8785268664360046,
+    "consistency_std": 0.034229155629873276,
+    "runs_completed": 4,
+    "test_class": "natural"
+  }
+]

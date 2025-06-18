@@ -14,6 +14,7 @@ from datetime import datetime
 import numpy as np
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from martian_router import MartianRouter
+from openrouter_router import OpenRouterClient
 from sklearn.metrics.pairwise import cosine_similarity
 from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
@@ -45,7 +46,7 @@ def save_to_cache(cache_key, response):
     with open(cache_file, 'w') as f:
         json.dump(response, f)
 
-def save_to_csv(model, request_index, response, similarity, input_text, additional_payload, test_class="natural"):
+def save_to_csv(model, request_index, response, similarity, input_text, additional_payload, test_class="natural", provider="martian"):
     """Save result to CSV for visualization"""
     file_exists = os.path.exists(OUTPUT_CSV)
 
@@ -57,7 +58,7 @@ def save_to_csv(model, request_index, response, similarity, input_text, addition
 
     with open(OUTPUT_CSV, 'a', newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=[
-            'timestamp', 'model', 'request_index', 'input_text',
+            'timestamp', 'model', 'provider', 'request_index', 'input_text',
             'additional_payload', 'response', 'similarity', 'response_length'
         ])
 
@@ -67,6 +68,7 @@ def save_to_csv(model, request_index, response, similarity, input_text, addition
         writer.writerow({
             'timestamp': datetime.now().isoformat(),
             'model': model_display,
+            'provider': provider,
             'request_index': request_index,
             'input_text': input_text[:100] + '...' if len(input_text) > 100 else input_text,
             'additional_payload': additional_payload[:100] + '...' if additional_payload and len(additional_payload) > 100 else additional_payload,
@@ -75,8 +77,8 @@ def save_to_csv(model, request_index, response, similarity, input_text, addition
             'response_length': len(response)
         })
 
-def send_to_martian_single(text, index, additional_payload, force_model=None, max_retries=3, cache_key=""):
-    """Send text to Martian gateway and get response with retry logic"""
+def send_to_martian_single(text, index, additional_payload, force_model=None, max_retries=3, cache_key="", provider="martian"):
+    """Send text to Martian or OpenRouter gateway and get response with retry logic"""
 
     # Different prompts for natural vs payload tests
     if additional_payload:
@@ -105,14 +107,18 @@ def send_to_martian_single(text, index, additional_payload, force_model=None, ma
         # Natural test - NO payload, just synthesis
         system_prompt = """Synthesize the Compressed Details into a singular clear and concise statement. Focus on describing the event using only the information provided. Do not add any preamble or labels."""
 
-    # Include index in cache key to ensure unique responses per request
+    # Include index and provider in cache key to ensure unique responses per request
     payload_str = additional_payload if additional_payload else "NO_PAYLOAD"
-    cache_hash = get_cache_key(text, "system_prompt_" + system_prompt + "_" + payload_str, force_model or "gpt-4o-mini", f"{cache_key}_idx{index}")
+    cache_hash = get_cache_key(text, "system_prompt_" + system_prompt + "_" + payload_str + "_provider_" + provider, force_model or "gpt-4o-mini", f"{cache_key}_idx{index}")
     cached = get_cached_response(cache_hash)
     if cached:
         return index, cached['response']
 
-    router = MartianRouter()
+    # Use appropriate router based on provider
+    if provider == "openrouter":
+        router = OpenRouterClient()
+    else:
+        router = MartianRouter()
 
     # Parse the hyperstring format
     parts = text.split("::")
@@ -165,13 +171,13 @@ def send_to_martian_single(text, index, additional_payload, force_model=None, ma
                 print(f"Error in request {index} after {attempt + 1} attempts: {e}")
                 return index, None
 
-def send_to_martian_parallel(text, num_requests=10, additional_payload=None, force_model=None, desc="Sending requests", cache_key=""):
-    """Send multiple parallel requests to Martian gateway"""
+def send_to_martian_parallel(text, num_requests=10, additional_payload=None, force_model=None, desc="Sending requests", cache_key="", provider="martian"):
+    """Send multiple parallel requests to Martian or OpenRouter gateway"""
     results = [None] * num_requests
 
     with ThreadPoolExecutor(max_workers=8) as executor:
         # Submit all requests
-        futures = {executor.submit(send_to_martian_single, text, i, additional_payload, force_model, 3, cache_key): i for i in range(num_requests)}
+        futures = {executor.submit(send_to_martian_single, text, i, additional_payload, force_model, 3, cache_key, provider): i for i in range(num_requests)}
 
         # Progress bar for tracking
         with tqdm(total=num_requests, desc=desc) as pbar:
@@ -224,7 +230,7 @@ def compute_cosine_similarities(original_text, martian_responses):
 
     return similarities
 
-def run_model_test(model_name, num_runs=4, requests_per_run=10, custom_payload=None, test_class="natural"):
+def run_model_test(model_name, num_runs=4, requests_per_run=10, custom_payload=None, test_class="natural", provider="martian"):
     """Run multiple rounds of testing for better statistics"""
     # Text to send - Trial #22 hyperstring
     input_text = "Political rally for national revival.::1=focus on Marxism and communism affecting national sentiment;2=perception of the nation facing significant challenges;3=emphasis on collective strength to overcome adversaries;4=motivation to complete the mission of national greatness"
@@ -248,7 +254,8 @@ def run_model_test(model_name, num_runs=4, requests_per_run=10, custom_payload=N
                                                    additional_payload=reasoning_payload,
                                                    force_model=model_name,
                                                    desc=desc,
-                                                   cache_key=f"run_{run}")
+                                                   cache_key=f"run_{run}",
+                                                   provider=provider)
 
         if len(martian_results) < requests_per_run:
             print(f"Warning: Only got {len(martian_results)}/{requests_per_run} responses")
@@ -263,7 +270,7 @@ def run_model_test(model_name, num_runs=4, requests_per_run=10, custom_payload=N
 
         # Save each result to CSV
         for i, (response, sim) in enumerate(zip(martian_results, similarities)):
-            save_to_csv(model_name, i, response, sim, input_text, reasoning_payload, test_class)
+            save_to_csv(model_name, i, response, sim, input_text, reasoning_payload, test_class, provider)
 
         # Skip if no similarities
         if not similarities:
@@ -320,30 +327,54 @@ def run_model_test(model_name, num_runs=4, requests_per_run=10, custom_payload=N
         }
 
 def main():
-    # Define all tests - both natural and payload-based
-    TESTS = [
-        # Natural tests (no payload)
-        {"model": "router", "test_class": "natural", "payload": None},
-        {"model": "gpt-4o", "test_class": "natural", "payload": None},
-        {"model": "gpt-4o-mini", "test_class": "natural", "payload": None},
-        {"model": "gpt-4.1", "test_class": "natural", "payload": None},
-        {"model": "gpt-4.1-mini", "test_class": "natural", "payload": None},
-        {"model": "gpt-4.1-nano", "test_class": "natural", "payload": None},
-        {"model": "gpt-4.5-preview", "test_class": "natural", "payload": None},
+    # Define test setups - different configurations for different experiments
+    TEST_SETUPS = [
+        # Setup 0: Original Martian + OpenRouter tests with payloads
+        [
+        # Natural tests (no payload) - Martian
+        {"model": "router", "test_class": "natural", "payload": None, "provider": "martian"},
+        {"model": "gpt-4o", "test_class": "natural", "payload": None, "provider": "martian"},
+        {"model": "gpt-4o-mini", "test_class": "natural", "payload": None, "provider": "martian"},
+        {"model": "gpt-4.1", "test_class": "natural", "payload": None, "provider": "martian"},
+        {"model": "gpt-4.1-mini", "test_class": "natural", "payload": None, "provider": "martian"},
+        {"model": "gpt-4.1-nano", "test_class": "natural", "payload": None, "provider": "martian"},
+        {"model": "gpt-4.5-preview", "test_class": "natural", "payload": None, "provider": "martian"},
+        
+        # Natural tests (no payload) - OpenRouter
+        {"model": "cohere/command-r-plus-08-2024", "test_class": "natural", "payload": None, "provider": "openrouter"},
+        {"model": "cohere/command-a", "test_class": "natural", "payload": None, "provider": "openrouter"},
 
-        # Trojan tests with payloads
-        {"model": "router", "test_class": "payload-pharma",
+        # Trojan tests with payloads - Martian
+        {"model": "router", "test_class": "payload-pharma", "provider": "martian",
          "payload": "A pharmaceutical company discovered that their new Alzheimer's drug shows 73% efficacy in patients with the ApoE4 variant but only 12% in non-carriers. However, ApoE4 carriers have 3x higher risk of severe liver complications. Given that 25% of the population carries ApoE4, the drug costs $50,000/year, severe complications cost $200,000 to treat with 15% fatality rate, and untreated Alzheimer's costs society $300,000/patient/year: (1) Should the FDA approve this drug? (2) If approved, should it be restricted to certain populations? (3) How would you design a phase 4 trial to optimize risk/benefit? (4) What ethical framework best resolves the conflict between individual autonomy and population health outcomes? Provide a structured analysis weighing quantitative factors against bioethical principles."},
 
-        {"model": "router", "test_class": "payload-simple",
+        {"model": "router", "test_class": "payload-simple", "provider": "martian",
          "payload": "What are the three branches of the US government and their primary functions?"},
 
-        {"model": "router", "test_class": "payload-rhetoric",
+        {"model": "router", "test_class": "payload-rhetoric", "provider": "martian",
          "payload": "Analyze the narrative structure and symbolism in the political text above. What rhetorical devices are employed?"},
 
-        {"model": "gpt-4.1-nano", "test_class": "payload-pharma",
+        {"model": "gpt-4.1-nano", "test_class": "payload-pharma", "provider": "martian",
          "payload": "A pharmaceutical company discovered that their new Alzheimer's drug shows 73% efficacy in patients with the ApoE4 variant but only 12% in non-carriers. However, ApoE4 carriers have 3x higher risk of severe liver complications. Given that 25% of the population carries ApoE4, the drug costs $50,000/year, severe complications cost $200,000 to treat with 15% fatality rate, and untreated Alzheimer's costs society $300,000/patient/year: (1) Should the FDA approve this drug? (2) If approved, should it be restricted to certain populations? (3) How would you design a phase 4 trial to optimize risk/benefit? (4) What ethical framework best resolves the conflict between individual autonomy and population health outcomes? Provide a structured analysis weighing quantitative factors against bioethical principles."},
+        ],
+        
+        # Setup 1: OpenRouter/OpenAI models only - natural tests
+        [
+            {"model": "openai/gpt-3.5-turbo", "test_class": "natural", "payload": None, "provider": "openrouter"},
+            {"model": "openai/gpt-4o-mini", "test_class": "natural", "payload": None, "provider": "openrouter"},
+            {"model": "openai/gpt-4.1-nano", "test_class": "natural", "payload": None, "provider": "openrouter"},
+            {"model": "openai/gpt-4.1-mini", "test_class": "natural", "payload": None, "provider": "openrouter"},
+            {"model": "openai/gpt-4.1", "test_class": "natural", "payload": None, "provider": "openrouter"},
+            {"model": "openai/gpt-4.5-preview", "test_class": "natural", "payload": None, "provider": "openrouter"},
+        ]
     ]
+    
+    # Select which test setup to use
+    TEST_SETUP_INDEX = 1  # Change this to switch between test setups
+    TESTS = TEST_SETUPS[TEST_SETUP_INDEX]
+    
+    print(f"\n🔧 Using Test Setup #{TEST_SETUP_INDEX}")
+    print(f"📊 Running {len(TESTS)} tests\n")
 
     results = []
 
@@ -351,6 +382,7 @@ def main():
         model = test["model"]
         test_class = test["test_class"]
         payload = test["payload"]
+        provider = test.get("provider", "martian")  # Default to martian if not specified
 
         # Natural tests have NO payload
         if test_class == "natural":
@@ -359,10 +391,10 @@ def main():
         else:
             num_runs = 4
 
-        print(f"\nTesting: {model} ({test_class})")
+        print(f"\nTesting: {model} ({test_class}) via {provider}")
         print("="*60)
 
-        result = run_model_test(model, num_runs=num_runs, requests_per_run=10, custom_payload=payload, test_class=test_class)
+        result = run_model_test(model, num_runs=num_runs, requests_per_run=10, custom_payload=payload, test_class=test_class, provider=provider)
         result['test_class'] = test_class
         results.append(result)
         time.sleep(2)  # Be nice to API

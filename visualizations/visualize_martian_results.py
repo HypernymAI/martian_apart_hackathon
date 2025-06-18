@@ -11,8 +11,19 @@ import numpy as np
 
 def load_martian_data(csv_file='data/martian_outputs.csv'):
     """Load and preprocess the Martian outputs CSV"""
-    df = pd.read_csv(csv_file)
+    # Try to read with error handling for malformed lines
+    try:
+        df = pd.read_csv(csv_file, on_bad_lines='skip')
+    except:
+        # Fallback for older pandas versions
+        df = pd.read_csv(csv_file, error_bad_lines=False)
+    
     df['timestamp'] = pd.to_datetime(df['timestamp'])
+    
+    # Check if provider column exists, if not add it with default value
+    if 'provider' not in df.columns:
+        df['provider'] = 'martian'  # Default for old data
+    
     return df
 
 def calculate_fingerprint_metrics(df):
