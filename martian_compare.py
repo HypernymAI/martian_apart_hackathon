@@ -55,10 +55,14 @@ def save_to_csv(model, request_index, response, similarity, input_text, addition
         model_display = f"{model}-{test_class}"
     else:
         model_display = model
+    
+    # Check if it's a reasoning model
+    model_config = get_model_config(model)
+    is_reasoning = model_config["reasoning_model"]
 
     with open(OUTPUT_CSV, 'a', newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=[
-            'timestamp', 'model', 'provider', 'request_index', 'input_text',
+            'timestamp', 'model', 'provider', 'is_reasoning', 'request_index', 'input_text',
             'additional_payload', 'response', 'similarity', 'response_length'
         ])
 
@@ -69,6 +73,7 @@ def save_to_csv(model, request_index, response, similarity, input_text, addition
             'timestamp': datetime.now().isoformat(),
             'model': model_display,
             'provider': provider,
+            'is_reasoning': is_reasoning,
             'request_index': request_index,
             'input_text': input_text[:100] + '...' if len(input_text) > 100 else input_text,
             'additional_payload': additional_payload[:100] + '...' if additional_payload and len(additional_payload) > 100 else additional_payload,
@@ -76,6 +81,33 @@ def save_to_csv(model, request_index, response, similarity, input_text, addition
             'similarity': similarity,
             'response_length': len(response)
         })
+
+# Model configuration for special handling
+MODEL_CONFIG = {
+    # OpenAI reasoning models - no system messages
+    "openai/o1": {"reasoning_model": True, "supports_system": False},
+    "openai/o1-mini": {"reasoning_model": True, "supports_system": False},
+    "openai/o1-preview": {"reasoning_model": True, "supports_system": False},
+    "openai/o3": {"reasoning_model": True, "supports_system": False},
+    "openai/o3-mini": {"reasoning_model": True, "supports_system": False},
+    
+    # Google reasoning models
+    "google/gemini-2.5-flash-preview:thinking": {"reasoning_model": True, "supports_system": True},
+    "google/gemini-2.5-pro:thinking": {"reasoning_model": True, "supports_system": True},
+    
+    # Anthropic reasoning models
+    "anthropic/claude-3.7-sonnet:thinking": {"reasoning_model": True, "supports_system": True},
+    
+    # DeepSeek reasoning models
+    "deepseek/deepseek-r1": {"reasoning_model": True, "supports_system": True},
+    
+    # Default for unspecified models
+    "default": {"reasoning_model": False, "supports_system": True}
+}
+
+def get_model_config(model_name):
+    """Get configuration for a specific model"""
+    return MODEL_CONFIG.get(model_name, MODEL_CONFIG["default"])
 
 def send_to_martian_single(text, index, additional_payload, force_model=None, max_retries=3, cache_key="", provider="martian"):
     """Send text to Martian or OpenRouter gateway and get response with retry logic"""
@@ -142,14 +174,27 @@ def send_to_martian_single(text, index, additional_payload, force_model=None, ma
 
     # Use forced model or default to gpt-4o-mini
     model_to_use = force_model if force_model else "gpt-4o-mini"
+    
+    # Get model configuration
+    model_config = get_model_config(model_to_use)
+    
+    # Build messages based on model capabilities
+    if model_config["supports_system"]:
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": content_string}
+        ]
+    else:
+        # For models that don't support system messages (like o1), merge into user message
+        combined_content = f"{system_prompt}\n\n{content_string}"
+        messages = [
+            {"role": "user", "content": combined_content}
+        ]
 
     for attempt in range(max_retries):
         try:
             response = router.chat_completion(
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": content_string}
-                ],
+                messages=messages,
                 model=model_to_use
             )
             result = response['choices'][0]['message']['content']
@@ -326,7 +371,51 @@ def run_model_test(model_name, num_runs=4, requests_per_run=10, custom_payload=N
             "runs_completed": 0
         }
 
-def main():
+def backup_and_clean_data():
+    """Backup existing data files and clear them"""
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    
+    # Backup existing files if they exist
+    if os.path.exists(OUTPUT_CSV):
+        backup_name = f"data/martian_outputs_backup_{timestamp}.csv"
+        shutil.copy(OUTPUT_CSV, backup_name)
+        print(f"✓ Backed up existing data to {backup_name}")
+        os.remove(OUTPUT_CSV)
+        print(f"✓ Cleared {OUTPUT_CSV}")
+    
+    # Also backup fingerprint files if they exist
+    fingerprint_files = [
+        "data/martian_fingerprint_metrics.csv",
+        "data/martian_model_fingerprints.json"
+    ]
+    
+    for file in fingerprint_files:
+        if os.path.exists(file):
+            backup_name = f"{file.rsplit('.', 1)[0]}_backup_{timestamp}.{file.rsplit('.', 1)[1]}"
+            shutil.copy(file, backup_name)
+            print(f"✓ Backed up {file}")
+
+def clear_cache(setup_index=None):
+    """Clear cache directory or specific setup cache"""
+    if setup_index is not None:
+        # Clear only cache for specific setup
+        cache_pattern = f"*setup{setup_index}*"
+        removed = 0
+        for cache_file in os.listdir(CACHE_DIR):
+            if f"setup{setup_index}" in cache_file:
+                os.remove(os.path.join(CACHE_DIR, cache_file))
+                removed += 1
+        print(f"✓ Cleared {removed} cache files for setup {setup_index}")
+    else:
+        # Clear entire cache
+        if os.path.exists(CACHE_DIR):
+            shutil.rmtree(CACHE_DIR)
+            os.makedirs(CACHE_DIR)
+            print(f"✓ Cleared entire cache directory")
+
+def main(args=None):
+    # args passed from __main__ section
+    
     # Define test setups - different configurations for different experiments
     TEST_SETUPS = [
         # Setup 0: Original Martian + OpenRouter tests with payloads
@@ -366,11 +455,65 @@ def main():
             {"model": "openai/gpt-4.1-mini", "test_class": "natural", "payload": None, "provider": "openrouter"},
             {"model": "openai/gpt-4.1", "test_class": "natural", "payload": None, "provider": "openrouter"},
             {"model": "openai/gpt-4.5-preview", "test_class": "natural", "payload": None, "provider": "openrouter"},
+        ],
+        
+        # Setup 2: Reasoning models - natural tests
+        [
+            {"model": "openai/o1-mini", "test_class": "natural", "payload": None, "provider": "openrouter"},
+            {"model": "openai/o1", "test_class": "natural", "payload": None, "provider": "openrouter"},
+            {"model": "google/gemini-2.5-flash-preview:thinking", "test_class": "natural", "payload": None, "provider": "openrouter"},
+            {"model": "anthropic/claude-3.7-sonnet:thinking", "test_class": "natural", "payload": None, "provider": "openrouter"},
+        ],
+        
+        # Setup 3: Anthropic models suite - natural tests
+        [
+            {"model": "anthropic/claude-3.5-haiku", "test_class": "natural", "payload": None, "provider": "openrouter"},
+            {"model": "anthropic/claude-3.5-sonnet", "test_class": "natural", "payload": None, "provider": "openrouter"},
+            {"model": "anthropic/claude-3.7-sonnet", "test_class": "natural", "payload": None, "provider": "openrouter"},
+            {"model": "anthropic/claude-sonnet-4", "test_class": "natural", "payload": None, "provider": "openrouter"},
+            {"model": "anthropic/claude-opus-4", "test_class": "natural", "payload": None, "provider": "openrouter"},
+            {"model": "anthropic/claude-3.7-sonnet:thinking", "test_class": "natural", "payload": None, "provider": "openrouter"},
         ]
     ]
     
-    # Select which test setup to use
-    TEST_SETUP_INDEX = 1  # Change this to switch between test setups
+    # Handle --list-setups
+    if args.list_setups:
+        print("\n📋 Available Test Setups:")
+        print("-" * 60)
+        setup_descriptions = [
+            "Original Martian + OpenRouter tests with payloads",
+            "OpenRouter/OpenAI models only - natural tests",
+            "Reasoning models (o1, Gemini thinking, Claude thinking)",
+            "Anthropic models suite (Haiku, Sonnet, Opus variants)"
+        ]
+        for i, (setup, desc) in enumerate(zip(TEST_SETUPS, setup_descriptions)):
+            print(f"\nSetup {i}: {desc}")
+            print(f"  Models: {len(setup)} tests")
+            # Show first few models
+            for j, test in enumerate(setup[:3]):
+                print(f"    - {test['model']} ({test['test_class']})")
+            if len(setup) > 3:
+                print(f"    ... and {len(setup) - 3} more")
+        return
+    
+    # Validate setup index
+    if args.setup >= len(TEST_SETUPS):
+        print(f"❌ Error: Setup {args.setup} not found. Available setups: 0-{len(TEST_SETUPS)-1}")
+        print("Use --list-setups to see available configurations")
+        return
+    
+    # Handle --clean
+    if args.clean:
+        print("\n🧹 Cleaning data...")
+        backup_and_clean_data()
+    
+    # Handle --clear-cache
+    if args.clear_cache:
+        print("\n🗑️  Clearing cache...")
+        clear_cache()
+    
+    # Select test setup
+    TEST_SETUP_INDEX = args.setup
     TESTS = TEST_SETUPS[TEST_SETUP_INDEX]
     
     print(f"\n🔧 Using Test Setup #{TEST_SETUP_INDEX}")
@@ -512,51 +655,12 @@ def match_model_fingerprint(martian_metrics):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='🔮 Martian Model Fingerprinting Tool')
+    parser.add_argument('--setup', type=int, default=1, help='Test setup index to use (default: 1)')
+    parser.add_argument('--clean', action='store_true', help='Backup and clear existing data before running')
     parser.add_argument('--clear-cache', action='store_true', 
                         help='Clear the cache before running (cleanse the palate)')
+    parser.add_argument('--list-setups', action='store_true', help='List available test setups and exit')
     args = parser.parse_args()
     
-    if args.clear_cache:
-        # Create backup directory with timestamp
-        backup_dir = f"_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-        os.makedirs(backup_dir, exist_ok=True)
-        
-        print("🔮 Preparing to cleanse the data...\n")
-        
-        # Backup cache if exists
-        if os.path.exists(CACHE_DIR):
-            print(f"📦 Backing up cache to {backup_dir}/...")
-            shutil.copytree(CACHE_DIR, os.path.join(backup_dir, "_martian_cache"))
-        
-        # Backup CSV if exists
-        if os.path.exists(OUTPUT_CSV):
-            print(f"📦 Backing up {OUTPUT_CSV} to {backup_dir}/...")
-            shutil.copy2(OUTPUT_CSV, os.path.join(backup_dir, OUTPUT_CSV))
-        
-        # Confirm before clearing
-        print("\n⚠️  This will clear:")
-        print(f"   - {CACHE_DIR}/ (API response cache)")
-        print(f"   - {OUTPUT_CSV} (fingerprint data)")
-        print(f"\n✅ Backups saved to: {backup_dir}/")
-        
-        response = input("\n🌙 Proceed with cleansing? (yes/no): ")
-        
-        if response.lower() in ['yes', 'y']:
-            # Clear cache
-            if os.path.exists(CACHE_DIR):
-                print("\n🕯️ Cleansing the cache... removing echoes from past séances...")
-                shutil.rmtree(CACHE_DIR)
-                os.makedirs(CACHE_DIR, exist_ok=True)
-            
-            # Clear CSV
-            if os.path.exists(OUTPUT_CSV):
-                print("🕯️ Cleansing fingerprint data...")
-                os.remove(OUTPUT_CSV)
-            
-            print("\n✨ Data cleansed. Starting fresh.")
-            print(f"💾 To restore: cp -r {backup_dir}/* .\n")
-        else:
-            print("\n🌙 Cleansing cancelled. The patterns remain.")
-            exit(0)
-    
-    main()
+    # Pass args to main function
+    main(args)

@@ -24,6 +24,10 @@ def load_martian_data(csv_file='data/martian_outputs.csv'):
     if 'provider' not in df.columns:
         df['provider'] = 'martian'  # Default for old data
     
+    # Check if is_reasoning column exists, if not add it with default value
+    if 'is_reasoning' not in df.columns:
+        df['is_reasoning'] = False  # Default for old data
+    
     return df
 
 def calculate_fingerprint_metrics(df):
@@ -249,6 +253,9 @@ def create_similarity_distribution(df):
     for i, model in enumerate(models):
         model_data = df[df['model'] == model]
 
+        # Check if it's a reasoning model
+        is_reasoning = model_data['is_reasoning'].iloc[0] if 'is_reasoning' in model_data.columns else False
+        
         # Create structured label
         if "-payload-" in model:
             # Trojan test
@@ -266,6 +273,10 @@ def create_similarity_distribution(df):
                 display_name = f"{model_type}<br>natural<br>claude-3-5-sonnet"
             else:
                 display_name = f"{model_type}<br>natural<br>{model}"
+        
+        # Add brain emoji for reasoning models
+        if is_reasoning:
+            display_name = f"🧠 {display_name}"
 
         # Get the deterministic color
         color = color_map[model]
@@ -532,7 +543,15 @@ def main():
 
     # Display metrics table
     print("\nModel Fingerprint Summary:")
-    print(metrics_df.to_string(index=False, float_format='%.4f'))
+    # Add brain emoji for reasoning models
+    metrics_display = metrics_df.copy()
+    for idx, row in metrics_display.iterrows():
+        model = row['model']
+        model_data = df[df['model'] == model]
+        is_reasoning = model_data['is_reasoning'].iloc[0] if len(model_data) > 0 and 'is_reasoning' in model_data.columns else False
+        if is_reasoning:
+            metrics_display.at[idx, 'model'] = f"🧠 {model}"
+    print(metrics_display.to_string(index=False, float_format='%.4f'))
 
     # Create visualizations
     print("\nGenerating visualizations...")

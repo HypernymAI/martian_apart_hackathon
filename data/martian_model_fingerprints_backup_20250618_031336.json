@@ -1,0 +1,46 @@
+[
+  {
+    "model": "openai/o1-mini",
+    "cv_mean": 0.04660559818148613,
+    "cv_std": 0.015496472828090191,
+    "range_mean": 0.09321119636297226,
+    "range_std": 0.030992945656180382,
+    "consistency_mean": 0.9033322334289551,
+    "consistency_std": 0.03148440271615982,
+    "runs_completed": 4,
+    "test_class": "natural"
+  },
+  {
+    "model": "openai/o1",
+    "cv_mean": 0.07829849421977997,
+    "cv_std": 0.014323716051876545,
+    "range_mean": 0.15659698843955994,
+    "range_std": 0.02864743210375309,
+    "consistency_mean": 0.8283642530441284,
+    "consistency_std": 0.03098178468644619,
+    "runs_completed": 4,
+    "test_class": "natural"
+  },
+  {
+    "model": "google/gemini-2.5-flash-preview:thinking",
+    "cv_mean": 0.06068621575832367,
+    "cv_std": 0.008269473910331726,
+    "range_mean": 0.12137243151664734,
+    "range_std": 0.016538947820663452,
+    "consistency_mean": 0.8737678527832031,
+    "consistency_std": 0.01534780953079462,
+    "runs_completed": 4,
+    "test_class": "natural"
+  },
+  {
+    "model": "anthropic/claude-3.7-sonnet:thinking",
+    "cv_mean": 0.09032033383846283,
+    "cv_std": 0.02572553977370262,
+    "range_mean": 0.18064066767692566,
+    "range_std": 0.05145107954740524,
+    "consistency_mean": 0.820611834526062,
+    "consistency_std": 0.04815024510025978,
+    "runs_completed": 4,
+    "test_class": "natural"
+  }
+]

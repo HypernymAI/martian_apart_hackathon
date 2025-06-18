@@ -53,8 +53,9 @@ cp .env.prototype .env
 
 Add your API keys to `.env`:
 ```
-MARTIAN_API_KEY=your-martian-api-key
-OPENAI_API_KEY=your-openai-api-key  # Optional
+MARTIAN_API_KEY=your-martian-api-key      # For Martian router (may be deprecated)
+OPENROUTER_API_KEY=your-openrouter-key   # For OpenRouter access to multiple models
+OPENAI_API_KEY=your-openai-api-key       # Optional, for direct OpenAI access
 ```
 
 ## Running the Analysis
@@ -62,9 +63,43 @@ OPENAI_API_KEY=your-openai-api-key  # Optional
 ### Option 1: Generate Everything (requires valid API keys)
 
 1. **Generate Data**:
+
+**Model Fingerprinting (martian_compare.py)**:
 ```bash
-python martian_compare.py
+# List available test setups
+python martian_compare.py --list-setups
+
+# Run specific setup (default: setup 1)
+python martian_compare.py --setup 1
+
+# Available setups:
+# 0: Original Martian + OpenRouter tests with payloads
+# 1: OpenRouter/OpenAI models (gpt-3.5, gpt-4o-mini, gpt-4.1 series)
+# 2: Reasoning models (o1, Gemini thinking, Claude thinking)
+
+# Clean start: backup old data and clear
+python martian_compare.py --setup 2 --clean
+
+# Clear cache before running
+python martian_compare.py --setup 1 --clear-cache
+
+# Full clean start
+python martian_compare.py --setup 2 --clean --clear-cache
+
+# Understanding the options:
+# --clean: Backs up and clears OUTPUT data files (CSV results, metrics)
+#          Use when starting a new experiment to separate results
+# --clear-cache: Clears API response cache (_martian_cache/)
+#               Use to force fresh API calls instead of cached responses
+```
+
+**Tool Intent Detection**:
+```bash
 python tool_intent_detection.py
+```
+
+**Distraction Testing**:
+```bash
 python test_distraction_hypotheses.py
 ```
 
